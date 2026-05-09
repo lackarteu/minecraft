@@ -38,16 +38,16 @@ on damage:
 	wDruzynie({_at}, {_v}) is true:
 		cancel event
 
-command /druzyna [<text>] [<offlineplayer>]:
+# Pierwszy argument musi byc wymagany (<text>), inaczej Minecraft 1.13+ zglasza
+# "Incorrect argument" / incomplete dla /dr utworz (Brigadier + dwa opcjonalne argumenty).
+command /druzyna <text> [<offlineplayer>]:
 	aliases: dr
 	description: Druzyny — zaproszenia, teleport, bez PvP w grupie
 	executable by: players
 	trigger:
-		if arg-1 is not set:
-			set {_a} to "pomoc"
-		else:
-			set {_a} to arg-1
+		set {_a} to arg-1
 		if {_a} is "pomoc" or {_a} is "help" or {_a} is "?":
+			send "{@prefix} &7(Wpisz zawsze coś po /dr — np. &f/dr pomoc&7.)"
 			send "{@prefix} &e/druzyna utworz &7— zakładasz drużynę"
 			send "{@prefix} &e/druzyna zapros <gracz> &7— tylko lider"
 			send "{@prefix} &e/druzyna akceptuj &7— akceptujesz zaproszenie"
