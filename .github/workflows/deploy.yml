@@ -20,7 +20,19 @@ jobs:
             cd /home/minecraft/server
             git pull origin main
             mkdir -p plugins
-            # Każdy plugin JAR musi mieć tu swoją linię wget — inaczej nie trafi na VPS.
-            # Skript: wersja dopasowana do Paper (release notes). Przy upgrade MC zmień URL i nazwę pliku.
+            # Każdy plugin: osobna linia [ -f ... ] || wget ... — inaczej JAR nie trafia na VPS.
+            # Przy zmianie wersji Paper/Minecraft zaktualizuj URL-e (release notes pluginów).
+
+            # Skrypt — skrypty druzyna.sk / treecapitator.sk (Paper ~1.21.x wg release Skript)
             [ -f plugins/Skript.jar ] || wget -O plugins/Skript.jar "https://github.com/SkriptLang/Skript/releases/download/2.15.2/Skript-2.15.2.jar"
+
+            # EssentialsX — rdzeń (komendy /home, /spawn, itd.; Paper wg release EssentialsX)
+            [ -f plugins/EssentialsX.jar ] || wget -O plugins/EssentialsX.jar "https://github.com/EssentialsX/Essentials/releases/download/2.21.2/EssentialsX-2.21.2.jar"
+
+            # TreeFeller — ścinka całych drzew (plugin); alternatywa: treecapitator.sk w Skript
+            [ -f plugins/TreeFeller.jar ] || wget -O plugins/TreeFeller.jar "https://github.com/ThizThizzyDizzy/tree-feller/releases/download/v1.30.1/TreeFeller-1.30.1.jar"
+
+            # Parties — drużyny z pluginu (Hangar). Skrypt /dr może współistnieć; rozważ wyłączenie jednego z systemów.
+            [ -f plugins/Parties.jar ] || wget -O plugins/Parties.jar "https://hangarcdn.papermc.io/plugins/AlessioDP/Parties/versions/3.2.14/PAPER/Parties-3.2.14.jar"
+
             systemctl restart minecraft

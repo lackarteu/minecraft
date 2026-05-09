@@ -28,3 +28,8 @@ Skrypty druzyna.sk i treecapitator.sk DZIALAJA TYLKO gdy na serwerze jest plugin
 
 6) Drzewa: cala klasa spada TYLKO gdy zniszczysz PIEN OD DOLU
    (pod tym klockiem nie ma juz pnia — np. ziemia). Jak bijesz w srodku korony — bez efektu.
+
+7) Deploy pobiera tez plugin TreeFeller.jar — moze kolidowac z treecapitator.sk
+   (podwojna scinka). Wylacz jedno z nich w konfiguracji / usun skrypt.
+
+8) Parties.jar (deploy) to osobny system druzyn od /dr w Skript — nie myl komend.
