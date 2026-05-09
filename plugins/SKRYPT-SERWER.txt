@@ -1,9 +1,10 @@
 Skrypty druzyna.sk i treecapitator.sk DZIALAJA TYLKO gdy na serwerze jest plugin Skript
 ====================================================================================
 
-1) Pobierz Skript pod DOKLADNIE ta sama wersje Minecrafta co server.jar / Paper:
-   https://github.com/SkriptLang/Skript/releases
-   Plik Skript-*.jar wrzuc do folderu plugins/ obok innych pluginow.
+1) Skript na VPS:
+   Deploy (.github/workflows/deploy.yml) pobiera plugins/Skript.jar przez wget.
+   Przy zmianie wersji Paper/Minecraft — podmien URL w deploy.yml na pasujacy release Skript.
+   Recznie: https://github.com/SkriptLang/Skript/releases — ten sam plik co w wget.
 
 2) Na serwerze MUSI istniec katalog:
    plugins/Skript/scripts/

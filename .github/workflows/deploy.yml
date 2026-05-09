@@ -19,4 +19,8 @@ jobs:
           script: |
             cd /home/minecraft/server
             git pull origin main
+            mkdir -p plugins
+            # Każdy plugin JAR musi mieć tu swoją linię wget — inaczej nie trafi na VPS.
+            # Skript: wersja dopasowana do Paper (release notes). Przy upgrade MC zmień URL i nazwę pliku.
+            [ -f plugins/Skript.jar ] || wget -O plugins/Skript.jar "https://github.com/SkriptLang/Skript/releases/download/2.15.2/Skript-2.15.2.jar"
             systemctl restart minecraft
