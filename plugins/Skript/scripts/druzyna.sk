@@ -64,9 +64,9 @@ on damage:
 	wDruzynie({_at}, {_v}) is true:
 		cancel event
 
-# Pierwszy argument musi byc wymagany (<text>), inaczej Minecraft 1.13+ zglasza
-# "Incorrect argument" / incomplete dla /dr utworz (Brigadier + dwa opcjonalne argumenty).
-command /druzyna <text> [<offlineplayer>]:
+# Drugi argument jako <text> (nie offlineplayer) — inaczej /dr utworz Nick
+# bywa odrzucany przez Brigadier jako „unknown or incomplete command”.
+command /druzyna <text> [<text>]:
 	aliases: dr
 	description: Druzyny — zaproszenia, teleport, bez PvP w grupie
 	executable by: players
@@ -74,8 +74,8 @@ command /druzyna <text> [<offlineplayer>]:
 		set {_a} to arg-1
 		if {_a} is "pomoc" or {_a} is "help" or {_a} is "?":
 			send "{@prefix} &7(Wpisz zawsze coś po /dr — np. &f/dr pomoc&7.)"
-			send "{@prefix} &e/druzyna utworz &7— zakładasz drużynę"
-			send "{@prefix} &e/druzyna zapros <gracz> &7— tylko lider"
+			send "{@prefix} &e/druzyna utworz &7— zakładasz drużynę (opcjonalnie: &e/dr utworz Nick &7— od razu zaprasza)"
+			send "{@prefix} &e/druzyna zapros <gracz> &7— tylko lider (albo &e/dr utworz Nick&7)"
 			send "{@prefix} &e/druzyna akceptuj &7— akceptujesz zaproszenie"
 			send "{@prefix} &e/druzyna odrzuc &7— odrzucasz zaproszenie"
 			send "{@prefix} &e/druzyna opusc &7— wychodzisz; jeśli to lider — cała drużyna się rozwiązuje"
@@ -90,13 +90,36 @@ command /druzyna <text> [<offlineplayer>]:
 			set {druzyna::%uuid of player%} to uuid of player
 			add uuid of player to {druzyna.czlonkowie::%uuid of player%::*}
 			druzynaOdswiezHud(uuid of player)
-			send "{@prefix} &aUtworzono drużynę. Zaproś: &e/druzyna zapros <nick>"
+			send "{@prefix} &aUtworzono drużynę."
+			if arg-2 is set:
+				set {_cel} to arg-2 parsed as offline player
+				{_cel} is not set:
+					send "{@prefix} &cNie znaleziono gracza: &f%arg-2%"
+					stop
+				{_cel} is not online:
+					send "{@prefix} &c%arg-2% &cmusi być online, żeby dostać zaproszenie."
+					stop
+				set {_celp} to {_cel} parsed as player
+				uuid of {_celp} is uuid of player:
+					send "{@prefix} &cNie możesz zaprosić samego siebie."
+					stop
+				{druzyna::%uuid of {_celp}%} is set:
+					send "{@prefix} &cTen gracz jest już w drużynie."
+					stop
+				set {zaproszenie::%uuid of {_celp}%} to uuid of player
+				send "{@prefix} &aWysłano zaproszenie do &f%{_celp}%&a."
+				send "{@prefix} &e%player% &7zaprasza Cię do drużyny. &a/druzyna akceptuj &7lub &c/druzyna odrzuc" to {_celp}
+				stop
+			send "{@prefix} &7Zaproś kogoś: &e/druzyna zapros <nick> &7lub &e/dr utworz <nick>"
 			stop
 		if {_a} is "zapros":
 			arg-2 is not set:
 				send "{@prefix} &cUżycie: &e/druzyna zapros <gracz>"
 				stop
-			set {_cel} to arg-2
+			set {_cel} to arg-2 parsed as offline player
+			{_cel} is not set:
+				send "{@prefix} &cNie znaleziono gracza: &f%arg-2%"
+				stop
 			{_cel} is not online:
 				send "{@prefix} &cGracz musi być online."
 				stop
@@ -186,7 +209,10 @@ command /druzyna <text> [<offlineplayer>]:
 			arg-2 is not set:
 				send "{@prefix} &cUżycie: &e/druzyna tp <gracz>"
 				stop
-			set {_cel} to arg-2
+			set {_cel} to arg-2 parsed as offline player
+			{_cel} is not set:
+				send "{@prefix} &cNie znaleziono gracza: &f%arg-2%"
+				stop
 			{_cel} is not online:
 				send "{@prefix} &cGracz offline."
 				stop
