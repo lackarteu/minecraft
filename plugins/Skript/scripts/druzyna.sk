@@ -1,6 +1,9 @@
 # Drużyny: zaproszenia, teleport do członka, brak obrażeń PvP w tej samej drużynie.
 # Zainstaluj Skript: https://github.com/SkriptLang/Skript/releases (wersja pod Twój Minecraft).
 # Po wrzuceniu pliku: /sk reload druzyna
+#
+# Ikony w rogu ekranu (HUD) w vanilla Java wymagają moda / resource packu.
+# Tu: pasek akcji NAD hotbarem — małe symbole ★ lider, ● członek + nicki.
 
 options:
 	prefix: &7[&bDruzyna&7]&r
@@ -25,6 +28,29 @@ function wDruzynie(a: player, b: player) :: boolean:
 	{druzyna::%{_ua}%} is {druzyna::%{_ub}%}:
 		return true
 	return false
+
+function druzynaTekstParty(u: text) :: text:
+	set {_s} to "§6§l[D] §r"
+	set {_n} to 0
+	loop all players:
+		{druzyna::%uuid of loop-player%} is {_u}:
+			add 1 to {_n}
+			uuid of loop-player is {_u}:
+				set {_s} to "%{_s}%§e★ §f%loop-player% §7"
+			else:
+				set {_s} to "%{_s}%§a● §f%loop-player% §7"
+	{_n} is 0:
+		return "§8§oDrużyna (nikt online)"
+	return {_s}
+
+function druzynaOdswiezHud(u: text):
+	set {_t} to druzynaTekstParty({_u})
+	loop all players:
+		{druzyna::%uuid of loop-player%} is {_u}:
+			send action bar {_t} to loop-player
+
+function druzynaWyczyscHud(p: player):
+	send action bar "" to {_p}
 
 on damage:
 	victim is not a player:
@@ -55,6 +81,7 @@ command /druzyna <text> [<offlineplayer>]:
 			send "{@prefix} &e/druzyna opusc &7— wychodzisz; jeśli to lider — cała drużyna się rozwiązuje"
 			send "{@prefix} &e/druzyna lista &7— członkowie"
 			send "{@prefix} &e/druzyna tp <gracz> &7— teleport do członka (ten sam świat)"
+			send "{@prefix} &7Nad hotbarem: §6[D] §e★ §flider §a● §fczłonkowie §8(bez moda nie da się ikon w rogu ekranu)"
 			stop
 		if {_a} is "utworz":
 			{druzyna::%uuid of player%} is set:
@@ -62,6 +89,7 @@ command /druzyna <text> [<offlineplayer>]:
 				stop
 			set {druzyna::%uuid of player%} to uuid of player
 			add uuid of player to {druzyna.czlonkowie::%uuid of player%::*}
+			druzynaOdswiezHud(uuid of player)
 			send "{@prefix} &aUtworzono drużynę. Zaproś: &e/druzyna zapros <nick>"
 			stop
 		if {_a} is "zapros":
@@ -110,6 +138,7 @@ command /druzyna <text> [<offlineplayer>]:
 			add uuid of player to {druzyna.czlonkowie::%{_lidu}%::*}
 			send "{@prefix} &aDołączyłeś do drużyny &f%{_lid}%&a." to player
 			send "{@prefix} &f%player% &adołączył." to {_lid}
+			druzynaOdswiezHud({_lidu})
 			stop
 		if {_a} is "odrzuc":
 			{zaproszenie::%uuid of player%} is not set:
@@ -130,15 +159,18 @@ command /druzyna <text> [<offlineplayer>]:
 					loop all players:
 						uuid of loop-player is {_mid}:
 							delete {druzyna::%uuid of loop-player%}
+							druzynaWyczyscHud(loop-player)
 							send "{@prefix} &cLider rozwiązał drużynę." to loop-player
 				delete {druzyna.czlonkowie::%{_lidu}%::*}
 				stop
 			remove uuid of player from {druzyna.czlonkowie::%{_lidu}%::*}
 			delete {druzyna::%uuid of player%}
+			druzynaWyczyscHud(player)
 			send "{@prefix} &7Opuściłeś drużynę."
 			loop all players:
 				{druzyna::%uuid of loop-player%} is {_lidu}:
 					send "{@prefix} &f%player% &7opuścił drużynę." to loop-player
+			druzynaOdswiezHud({_lidu})
 			stop
 		if {_a} is "lista":
 			{druzyna::%uuid of player%} is not set:
@@ -169,3 +201,21 @@ command /druzyna <text> [<offlineplayer>]:
 			send "{@prefix} &aTeleport do &f%{_celp}%&a."
 			stop
 		send "{@prefix} &cNieznana opcja. &e/druzyna pomoc"
+
+every 2 seconds:
+	delete {_druzHud::*}
+	loop all players:
+		{druzyna::%uuid of loop-player%} is not set:
+			continue
+		set {_lu} to {druzyna::%uuid of loop-player%}
+		{_druzHud::%{_lu}%} is set:
+			continue
+		set {_druzHud::%{_lu}%} to true
+		druzynaOdswiezHud({_lu})
+
+on quit:
+	set {_id} to uuid of player
+	set {_lu} to {druzyna::%{_id}%}
+	{_lu} is not set:
+		stop
+	druzynaOdswiezHud({_lu})
