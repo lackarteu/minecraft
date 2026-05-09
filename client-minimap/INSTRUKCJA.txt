@@ -1,0 +1,26 @@
+Minimapa w prawym górnym rogu (mała) — Minecraft Java
+=====================================================
+
+Serwer Spigot/Paper NIE może włączyć minimapy na ekranie gracza w vanilla.
+Każdy gracz musi mieć MOD po stronie klienta (Fabric / Forge / NeoForge — zależnie od launchera).
+
+Rekomendacja: Xaero's Minimap
+----------------------------
+1. Pobierz mod pod swoją wersję Minecrafta i loader:
+   https://modrinth.com/mod/xaeros-minimap
+2. Wrzuć plik .jar do folderu mods (np. w Prism Launcher: wersja → folder → mods).
+3. Uruchom grę, wejdź na serwer.
+4. Otwórz ustawienia minimapy: domyślnie klawisz Y (albo Z — sprawdź Options → Controls).
+5. Ustaw:
+   - pozycję: przeciągnij minimapkę w prawy górny róg (albo opcja „Position” / narożnik),
+   - rozmiar: mniejszy suwak „Size” / „Map size”.
+6. Opcjonalnie: skopiuj wygenerowany plik
+   .minecraft/config/xaerominimap.txt
+   żeby mieć te same ustawienia na innym PC (linie interface: są od rozdzielczości).
+
+Alternatywa: JourneyMap (https://modrinth.com/mod/journeymap)
+— własne menu (domyślnie J), tam układ i rozmiar mapy.
+
+W tym repozytorium jest plik przykład-xaerominimap.txt — to SZKIC opcji
+(nie gwarantuje idealnej pozycji na każdym monitorze). Najpewniej ustawisz
+wszystko w grze (Y), a potem ewentualnie nadpiszesz config.

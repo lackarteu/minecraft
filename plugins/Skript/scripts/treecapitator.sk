@@ -1,0 +1,81 @@
+# Ścinka całego drzewa: zniszczenie pnia od dołu (pod tym klockiem nie ma już pnia)
+# rozlewa się na wszystkie stykające się klocki pnia. Wymaga Skript.
+# /sk reload treecapitator
+# Jeśli błąd "unknown type" przy starcie — usuń z aliasów np. pale oak (stara wersja gry).
+
+options:
+	max-blokow: 400
+
+aliases:
+	treelogs = oak log, spruce log, birch log, jungle log, acacia log, dark oak log, mangrove log, cherry log, pale oak log, crimson stem, warped stem, stripped oak log, stripped spruce log, stripped birch log, stripped jungle log, stripped acacia log, stripped dark oak log, stripped mangrove log, stripped cherry log, stripped pale oak log, stripped crimson stem, stripped warped stem, oak wood, spruce wood, birch wood, jungle wood, acacia wood, dark oak wood, mangrove wood, cherry wood, pale oak wood
+
+function jestPNiem(b: block) :: boolean:
+	{_b} is treelogs:
+		return true
+	return false
+
+function dolPNia(l: location) :: boolean:
+	set {_d} to block below {_l}
+	jestPNiem({_d}) is false:
+		return true
+	return false
+
+function tcKlucz(l: location) :: text:
+	set {_b} to block at {_l}
+	return "%x-coordinate of {_b}%,%y-coordinate of {_b}%,%z-coordinate of {_b}%,%world of {_b}%"
+
+on break of treelogs:
+	player is not set:
+		stop
+	set {_L} to location of event-block
+	dolPNia({_L}) is false:
+		stop
+	set {_head} to 1
+	set {_tail} to 0
+	set {_cnt} to 0
+	delete {_tcq::*}
+	delete {_tcvis::*}
+	loop -1, 0 and 1:
+		set {_ox} to loop-value
+		loop -1, 0 and 1:
+			set {_oy} to loop-value
+			loop -1, 0 and 1:
+				set {_oz} to loop-value
+				set {_nl} to location at (x-coordinate of {_L} + {_ox}, y-coordinate of {_L} + {_oy}, z-coordinate of {_L} + {_oz}) in world of {_L}
+				set {_nb} to block at {_nl}
+				jestPNiem({_nb}) is false:
+					continue
+				set {_k} to tcKlucz({_nl})
+				{_tcvis::%{_k}%} is set:
+					continue
+				set {_tcvis::%{_k}%} to true
+				add 1 to {_tail}
+				set {_tcq::%{_tail}%} to {_nl}
+	loop {@max-blokow} + 50 times:
+		{_head} > {_tail}:
+			stop loop
+		set {_cur} to {_tcq::%{_head}%}
+		add 1 to {_head}
+		set {_b} to block at {_cur}
+		jestPNiem({_b}) is false:
+			continue
+		add 1 to {_cnt}
+		{_cnt} > {@max-blokow}:
+			stop loop
+		break {_b} naturally using player's tool
+		loop -1, 0 and 1:
+			set {_ox} to loop-value
+			loop -1, 0 and 1:
+				set {_oy} to loop-value
+				loop -1, 0 and 1:
+					set {_oz} to loop-value
+					set {_nl} to location at (x-coordinate of {_cur} + {_ox}, y-coordinate of {_cur} + {_oy}, z-coordinate of {_cur} + {_oz}) in world of {_cur}
+					set {_nb} to block at {_nl}
+					jestPNiem({_nb}) is false:
+						continue
+					set {_k} to tcKlucz({_nl})
+					{_tcvis::%{_k}%} is set:
+						continue
+					set {_tcvis::%{_k}%} to true
+					add 1 to {_tail}
+					set {_tcq::%{_tail}%} to {_nl}

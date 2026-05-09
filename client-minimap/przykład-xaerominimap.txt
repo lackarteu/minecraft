@@ -1,0 +1,20 @@
+# Fragment konfiguracji Xaero's Minimap — skopiuj do: .minecraft/config/xaerominimap.txt
+# TYLKO po pierwszym uruchomieniu gry z modem (żeby mod utworzył pełny plik).
+# Najlepiej: ustaw minimapkę w grze (Y) → prawy górny róg, mały rozmiar →
+# potem skopiuj z Twojego xaerominimap.txt linie zaczynające się od "interface:".
+
+#INGAME SETTINGS (Xaero często dopisuje tu komentarz "DO NOT EDIT" — traktuj delikatnie)
+minimap:true
+lockNorth:false
+zoom:3
+mapSize:-1
+minimapOpacity:85.0
+showCoords:true
+showBiome:false
+showLightLevel:false
+dotsScale:0.9
+arrowScale:1.2
+
+# Przykładowa linia pozycji z innego modpacku — NA TWOIM PC MOŻE BYĆ INNA.
+# Po ustawieniu w GUI (Y) zastąp swoimi liniami "interface:..." z configu gry.
+# interface:gui.xaero_minimap:155:12:false:false:true:false

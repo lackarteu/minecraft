@@ -1,0 +1,171 @@
+# Drużyny: zaproszenia, teleport do członka, brak obrażeń PvP w tej samej drużynie.
+# Zainstaluj Skript: https://github.com/SkriptLang/Skript/releases (wersja pod Twój Minecraft).
+# Po wrzuceniu pliku: /sk reload druzyna
+
+options:
+	prefix: &7[&bDruzyna&7]&r
+
+function druzynaLider(p: player) :: player:
+	set {_u} to uuid of {_p}
+	{druzyna::%{_u}%} is not set:
+		return {_p}
+	set {_lid} to {druzyna::%{_u}%}
+	loop all players:
+		uuid of loop-player is {_lid}:
+			return loop-player
+	return {_p}
+
+function wDruzynie(a: player, b: player) :: boolean:
+	set {_ua} to uuid of {_a}
+	set {_ub} to uuid of {_b}
+	{druzyna::%{_ua}%} is not set:
+		return false
+	{druzyna::%{_ub}%} is not set:
+		return false
+	{druzyna::%{_ua}%} is {druzyna::%{_ub}%}:
+		return true
+	return false
+
+on damage:
+	victim is not a player:
+		stop
+	set {_v} to victim
+	set {_at} to attacker
+	{_at} is a projectile:
+		set {_at} to shooter of {_at}
+	{_at} is not a player:
+		stop
+	wDruzynie({_at}, {_v}) is true:
+		cancel event
+
+command /druzyna [<text>] [<offlineplayer>]:
+	aliases: dr
+	description: Druzyny — zaproszenia, teleport, bez PvP w grupie
+	executable by: players
+	trigger:
+		if arg-1 is not set:
+			set {_a} to "pomoc"
+		else:
+			set {_a} to arg-1
+		if {_a} is "pomoc" or {_a} is "help" or {_a} is "?":
+			send "{@prefix} &e/druzyna utworz &7— zakładasz drużynę"
+			send "{@prefix} &e/druzyna zapros <gracz> &7— tylko lider"
+			send "{@prefix} &e/druzyna akceptuj &7— akceptujesz zaproszenie"
+			send "{@prefix} &e/druzyna odrzuc &7— odrzucasz zaproszenie"
+			send "{@prefix} &e/druzyna opusc &7— wychodzisz; jeśli to lider — cała drużyna się rozwiązuje"
+			send "{@prefix} &e/druzyna lista &7— członkowie"
+			send "{@prefix} &e/druzyna tp <gracz> &7— teleport do członka (ten sam świat)"
+			stop
+		if {_a} is "utworz":
+			{druzyna::%uuid of player%} is set:
+				send "{@prefix} &cJuż jesteś w drużynie. &e/druzyna opusc"
+				stop
+			set {druzyna::%uuid of player%} to uuid of player
+			add uuid of player to {druzyna.czlonkowie::%uuid of player%::*}
+			send "{@prefix} &aUtworzono drużynę. Zaproś: &e/druzyna zapros <nick>"
+			stop
+		if {_a} is "zapros":
+			arg-2 is not set:
+				send "{@prefix} &cUżycie: &e/druzyna zapros <gracz>"
+				stop
+			set {_cel} to arg-2
+			{_cel} is not online:
+				send "{@prefix} &cGracz musi być online."
+				stop
+			set {_celp} to {_cel} parsed as player
+			{druzyna::%uuid of player%} is not set:
+				send "{@prefix} &cNajpierw: &e/druzyna utworz"
+				stop
+			druzynaLider(player) is not player:
+				send "{@prefix} &cTylko lider może zapraszać."
+				stop
+			{druzyna::%uuid of {_celp}%} is set:
+				send "{@prefix} &cTen gracz jest już w drużynie."
+				stop
+			set {zaproszenie::%uuid of {_celp}%} to uuid of player
+			send "{@prefix} &aWysłano zaproszenie do &f%{_celp}%&a."
+			send "{@prefix} &e%player% &7zaprasza Cię do drużyny. &a/druzyna akceptuj &7lub &c/druzyna odrzuc" to {_celp}
+			stop
+		if {_a} is "akceptuj":
+			{zaproszenie::%uuid of player%} is not set:
+				send "{@prefix} &cBrak zaproszenia."
+				stop
+			set {_invu} to {zaproszenie::%uuid of player%}
+			delete {zaproszenie::%uuid of player%}
+			set {_ok} to false
+			loop all players:
+				uuid of loop-player is {_invu}:
+					set {_z} to loop-player
+					set {_ok} to true
+					exit loop
+			{_ok} is false:
+				send "{@prefix} &cZapraszający jest offline."
+				stop
+			{druzyna::%uuid of player%} is set:
+				send "{@prefix} &cNajpierw opuść drużynę."
+				stop
+			set {_lid} to druzynaLider({_z})
+			set {_lidu} to uuid of {_lid}
+			set {druzyna::%uuid of player%} to {_lidu}
+			add uuid of player to {druzyna.czlonkowie::%{_lidu}%::*}
+			send "{@prefix} &aDołączyłeś do drużyny &f%{_lid}%&a." to player
+			send "{@prefix} &f%player% &adołączył." to {_lid}
+			stop
+		if {_a} is "odrzuc":
+			{zaproszenie::%uuid of player%} is not set:
+				send "{@prefix} &cBrak zaproszenia."
+				stop
+			delete {zaproszenie::%uuid of player%}
+			send "{@prefix} &7Odrzucono."
+			stop
+		if {_a} is "opusc":
+			{druzyna::%uuid of player%} is not set:
+				send "{@prefix} &cNie jesteś w drużynie."
+				stop
+			set {_lidu} to {druzyna::%uuid of player%}
+			set {_lider} to uuid of player is {_lidu}
+			if {_lider} is true:
+				loop {druzyna.czlonkowie::%{_lidu}%::*}:
+					set {_mid} to loop-value
+					loop all players:
+						uuid of loop-player is {_mid}:
+							delete {druzyna::%uuid of loop-player%}
+							send "{@prefix} &cLider rozwiązał drużynę." to loop-player
+				delete {druzyna.czlonkowie::%{_lidu}%::*}
+				stop
+			remove uuid of player from {druzyna.czlonkowie::%{_lidu}%::*}
+			delete {druzyna::%uuid of player%}
+			send "{@prefix} &7Opuściłeś drużynę."
+			loop all players:
+				{druzyna::%uuid of loop-player%} is {_lidu}:
+					send "{@prefix} &f%player% &7opuścił drużynę." to loop-player
+			stop
+		if {_a} is "lista":
+			{druzyna::%uuid of player%} is not set:
+				send "{@prefix} &cNie jesteś w drużynie."
+				stop
+			set {_lidu} to {druzyna::%uuid of player%}
+			send "{@prefix} &eCzłonkowie:"
+			loop all players:
+				{druzyna::%uuid of loop-player%} is {_lidu}:
+					send "{@prefix} &7- &f%loop-player%"
+			stop
+		if {_a} is "tp":
+			arg-2 is not set:
+				send "{@prefix} &cUżycie: &e/druzyna tp <gracz>"
+				stop
+			set {_cel} to arg-2
+			{_cel} is not online:
+				send "{@prefix} &cGracz offline."
+				stop
+			set {_celp} to {_cel} parsed as player
+			wDruzynie(player, {_celp}) is false:
+				send "{@prefix} &cTo nie jest członek Twojej drużyny."
+				stop
+			world of {_celp} is not world of player:
+				send "{@prefix} &cMusicie być w tym samym świecie."
+				stop
+			teleport player to {_celp}
+			send "{@prefix} &aTeleport do &f%{_celp}%&a."
+			stop
+		send "{@prefix} &cNieznana opcja. &e/druzyna pomoc"
