@@ -1,13 +1,16 @@
-# Ścinka całego drzewa: zniszczenie pnia od dołu (pod tym klockiem nie ma już pnia)
-# rozlewa się na wszystkie stykające się klocki pnia. Wymaga Skript.
+# Scinka calego drzewa: zniszczenie pnia od dolu (pod tym klockiem nie ma juz pnia)
+# -> wszystkie stykajace sie pnie (BFS). Wymaga pluginu Skript.
 # /sk reload treecapitator
-# Jeśli błąd "unknown type" przy starcie — usuń z aliasów np. pale oak (stara wersja gry).
+#
+# Jesli skrypt sie nie laduje: w konsoli szukaj "pale oak" / unknown type —
+# wtedy dopasuj liste w aliases do wersji MC serwera.
 
 options:
 	max-blokow: 400
 
+# Bez pale oak — na starszych wersjach MC alias mogl calego skryptu nie zaladowac.
 aliases:
-	treelogs = oak log, spruce log, birch log, jungle log, acacia log, dark oak log, mangrove log, cherry log, pale oak log, crimson stem, warped stem, stripped oak log, stripped spruce log, stripped birch log, stripped jungle log, stripped acacia log, stripped dark oak log, stripped mangrove log, stripped cherry log, stripped pale oak log, stripped crimson stem, stripped warped stem, oak wood, spruce wood, birch wood, jungle wood, acacia wood, dark oak wood, mangrove wood, cherry wood, pale oak wood
+	treelogs = oak log, spruce log, birch log, jungle log, acacia log, dark oak log, mangrove log, cherry log, crimson stem, warped stem, stripped oak log, stripped spruce log, stripped birch log, stripped jungle log, stripped acacia log, stripped dark oak log, stripped mangrove log, stripped cherry log, stripped crimson stem, stripped warped stem, oak wood, spruce wood, birch wood, jungle wood, acacia wood, dark oak wood, mangrove wood, cherry wood
 
 function jestPNiem(b: block) :: boolean:
 	{_b} is treelogs:
@@ -23,6 +26,9 @@ function dolPNia(l: location) :: boolean:
 function tcKlucz(l: location) :: text:
 	set {_b} to block at {_l}
 	return "%x-coordinate of {_b}%,%y-coordinate of {_b}%,%z-coordinate of {_b}%,%world of {_b}%"
+
+on load:
+	send "[treecapitator] Skrypt zaladowany. Scinka lancuchowa TYLKO przy zbiciu najnizszego pnia (pod spodem nie ma juz pnia)." to console
 
 on break of treelogs:
 	player is not set:
@@ -62,7 +68,7 @@ on break of treelogs:
 		add 1 to {_cnt}
 		{_cnt} > {@max-blokow}:
 			stop loop
-		break {_b} naturally using player's tool
+		break {_b} naturally using tool of player
 		loop -1, 0 and 1:
 			set {_ox} to loop-value
 			loop -1, 0 and 1:

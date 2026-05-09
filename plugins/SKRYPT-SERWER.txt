@@ -1,0 +1,29 @@
+Skrypty druzyna.sk i treecapitator.sk DZIALAJA TYLKO gdy na serwerze jest plugin Skript
+====================================================================================
+
+1) Pobierz Skript pod DOKLADNIE ta sama wersje Minecrafta co server.jar / Paper:
+   https://github.com/SkriptLang/Skript/releases
+   Plik Skript-*.jar wrzuc do folderu plugins/ obok innych pluginow.
+
+2) Na serwerze MUSI istniec katalog:
+   plugins/Skript/scripts/
+   i w nim pliki: druzyna.sk, treecapitator.sk
+   (po git pull z tego repozytorium — jesli VPS to klon tego samego repo).
+
+   UWAGA: Jesli na VPS katalog serwera NIE jest klone lackarteu/minecraft albo deploy
+   nie kopiuje plugins/ — skryptow tam nie bedzie. Sprawdz: ls plugins/Skrypt/scripts/
+
+3) Po dodaniu / aktualizacji skryptow (albo po deployu):
+   - w konsoli serwera: sk reload druzyna
+   - sk reload treecapitator
+   albo: sk reload all
+   Albo pelny restart serwera (systemctl restart minecraft).
+
+4) W konsoli przy starcie NIE powinno byc czerwonych linii "can't understand" / "errors"
+   przy druzyna.sk ani treecapitator.sk.
+
+5) Druzyna: komendy /dr pomoc, /dr utworz, /dr zapros nick
+   (gracz bez OP tez — chyba ze inny plugin blokuje komendy).
+
+6) Drzewa: cala klasa spada TYLKO gdy zniszczysz PIEN OD DOLU
+   (pod tym klockiem nie ma juz pnia — np. ziemia). Jak bijesz w srodku korony — bez efektu.

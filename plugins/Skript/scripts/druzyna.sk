@@ -5,6 +5,9 @@
 # Ikony w rogu ekranu (HUD) w vanilla Java wymagają moda / resource packu.
 # Tu: pasek akcji NAD hotbarem — małe symbole ★ lider, ● członek + nicki.
 
+on load:
+	send "[druzyna] Skrypt zaladowany. Komendy: /dr pomoc, /dr utworz, /dr zapros nick" to console
+
 options:
 	prefix: &7[&bDruzyna&7]&r
 
