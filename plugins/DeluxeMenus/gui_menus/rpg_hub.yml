@@ -100,9 +100,9 @@ items:
     slot: 33
     display_name: '&d⚑ Lochy'
     lore:
-      - '&7DungeonsXL'
+      - '&7DungeonsXL — wybór instancji'
     left_click_commands:
-      - '[message] &cLochy są w przygotowaniu! Wróć wkrótce.'
+      - '[openguimenu] rpg_dungeons'
   close_btn:
     material: COMPASS
     slot: 49

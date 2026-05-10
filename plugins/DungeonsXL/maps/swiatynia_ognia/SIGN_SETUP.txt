@@ -1,0 +1,22 @@
+DungeonsXL 0.18 — /dxl edit swiatynia_ognia (świat NETHER)
+Boss MythicMobs: Swiatynia_WladcaOgnia (BLAZE, 500 HP). Provider MM.
+
+1) [Lobby]  2) [Ready] (auto-start w linii 3)  3) [Start]
+4) Fale MAGMA_CUBE / BLAZE — przykład:
+   [Mob]
+   MAGMA_CUBE
+   0,2
+   D 10
+   [Mob]
+   BLAZE
+   0,2
+   D 10
+5) Boss:
+   [Mob]
+   Swiatynia_WladcaOgnia
+   0,1,MM
+   D 6
+6) [End]
+7) [RewardChest] — diamenty / netherite z lootów Mythic (RPG_* z rpg_boss_loot.yml)
+
+/mm reload po edycji mobów. /dxl reload po znakach.

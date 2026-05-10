@@ -1,0 +1,28 @@
+DungeonsXL 0.18 — znaki w trybie edycji (/dxl edit krypta_cieni)
+MythicMobs: moby Krypta_StraznikKrypty (boss), provider MM w config DungeonsXL (domyślnie).
+
+UKŁAD (przykład):
+1) [Lobby] — miejsce zebrania grupy (pasywny)
+2) [Ready] — linia 3: np. 30 = auto-start po 30 s (przycisk)
+3) [Start] — wejście na trasę (pasywny)
+4) Fale mobów — [Mob] (Windup), linia 4: D<bloki> = gracz w zasięgu
+   Przykład szkieletów (linie 1–4 znaku):
+   [Mob]
+   SKELETON
+   0,3
+   D 8
+   Kolejny znak zombie:
+   [Mob]
+   ZOMBIE
+   0,3
+   D 8
+5) Boss Strażnik Krypty (MythicMobs), np. gdy zabito fale (trigger M) lub D przy wejściu do sali:
+   [Mob]
+   Krypta_StraznikKrypty
+   0,1,MM
+   D 5
+   (dla łańcucha „po zabiciu”: ustaw na mob znaku ten sam spawn ID w linii 2 i trigger M w linii 4 — patrz wiki DXL / znaki Mob)
+6) [End] — koniec lochu (przycisk), linia 2: nazwa piętra jeśli potrzebna
+7) Opcjonalnie [RewardChest] przy sali bossa — nagrody (money/levels + loottable Mythic/Caliburn)
+
+Po postawieniu znaków: zapis świata, /dxl reload

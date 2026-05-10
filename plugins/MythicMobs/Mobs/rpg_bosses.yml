@@ -80,3 +80,55 @@ SmokChaosu:
   Drops:
   - RPG_Rozdzka_Smoka_Chaosu 1 1
   - exp 3000 1
+
+Krypta_StraznikKrypty:
+  Type: WITHER_SKELETON
+  Display: '&8&lStrażnik Krypty'
+  Health: 200
+  Damage: 8
+  Options:
+    AlwaysShowName: true
+    PreventOtherDrops: true
+    KnockbackResistance: 0.5
+    FollowRange: 32
+    MovementSpeed: 0.26
+  BossBar:
+    Enabled: true
+    Title: '&8Strażnik Krypty'
+    Range: 48
+    Color: RED
+    Style: SEGMENTED_10
+  Skills:
+  - message{m="&8[&8&lBOSS&8] &7Strażnik Krypty &8powstaje z grobu!";audience=nearbyplayers} @self ~onSpawn
+  - message{m="&8[&8&lBOSS&8] &7Strażnik Krypty &8 się rozsypuje!";audience=nearbyplayers} @self ~onDeath
+  Drops:
+  - IRON_INGOT 12 1
+  - GOLD_INGOT 6 1
+  - RPG_Krypta_Trofeum 1 0.35
+  - exp 350 1
+
+Swiatynia_WladcaOgnia:
+  Type: BLAZE
+  Display: '&4&lWładca Ognia'
+  Health: 500
+  Damage: 12
+  Options:
+    AlwaysShowName: true
+    PreventOtherDrops: true
+    KnockbackResistance: 0.65
+    FollowRange: 40
+    MovementSpeed: 0.3
+  BossBar:
+    Enabled: true
+    Title: '&4Władca Ognia'
+    Range: 64
+    Color: RED
+    Style: SEGMENTED_12
+  Skills:
+  - message{m="&8[&4&lBOSS&8] &cWładca Ognia &4pali świątynię!";audience=nearbyplayers} @self ~onSpawn
+  - message{m="&8[&4&lBOSS&8] &cWładca Ognia &4gaśnie!";audience=nearbyplayers} @self ~onDeath
+  Drops:
+  - DIAMOND 4 1
+  - NETHERITE_SCRAP 3 1
+  - RPG_Swiatynia_Serce_Ognia 1 0.4
+  - exp 1200 1

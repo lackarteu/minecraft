@@ -1,0 +1,93 @@
+# Submenu lochów — otwierane z rpg_hub (slot 33). DungeonsXL: /dxl play <id>
+menu_title: '&d&l≋ Lochy DungeonsXL ≋'
+size: 54
+items:
+  filler:
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slots:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
+      - 18
+      - 19
+      - 21
+      - 22
+      - 23
+      - 25
+      - 26
+      - 27
+      - 28
+      - 29
+      - 30
+      - 31
+      - 32
+      - 33
+      - 34
+      - 35
+      - 36
+      - 37
+      - 38
+      - 39
+      - 40
+      - 41
+      - 42
+      - 43
+      - 44
+      - 45
+      - 46
+      - 47
+      - 48
+      - 50
+      - 51
+      - 52
+      - 53
+  krypta_btn:
+    material: WITHER_SKELETON_SKULL
+    slot: 20
+    display_name: '&8&lKrypta Cieni'
+    lore:
+      - '&7Łatwy • 1–4 graczy'
+      - '&8Opuszczona krypta: szkielety, zombie.'
+      - '&cBoss: &fStrażnik Krypty &7(Wither Skeleton, 200 HP)'
+      - '&7Łupy: &fżelazo, złoto, doświadczenie'
+      - ''
+      - '&aKlik: &f/dxl play krypta_cieni'
+    left_click_commands:
+      - '[player] dxl play krypta_cieni'
+  swiatynia_btn:
+    material: MAGMA_CREAM
+    slot: 24
+    display_name: '&4&lŚwiątynia Ognia'
+    lore:
+      - '&cTrudny • 2–6 graczy'
+      - '&8Nether: magma, blaze''e.'
+      - '&cBoss: &fWładca Ognia &7(Blaze, 500 HP)'
+      - '&7Łupy: &fdiamenty, netherite, unikalne itemy'
+      - ''
+      - '&aKlik: &f/dxl play swiatynia_ognia'
+    left_click_commands:
+      - '[player] dxl play swiatynia_ognia'
+  return_hub:
+    material: ARROW
+    slot: 49
+    display_name: '&7← Powrót'
+    lore:
+      - '&8Menu główne'
+    left_click_commands:
+      - '[openguimenu] rpg_hub'

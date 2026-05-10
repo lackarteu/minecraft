@@ -1,0 +1,57 @@
+# Świątynia Ognia — trudny loch (2–6 graczy). Świat NETHER. Znaki: SIGN_SETUP.txt
+
+worldEnvironment: NETHER
+
+invitedPlayers: []
+
+requirements:
+  groupSize:
+    minimum: 2
+    maximum: 6
+
+gameGoal:
+  type: END
+  timeToFinish: 3600
+
+gameMode: SURVIVAL
+fly: false
+playerVersusPlayer: false
+friendlyFire: false
+
+timeUntilKickOfflinePlayer: 90
+timeToNextWave: 6
+timeToNextLoot: 8
+
+mobExpDrops: true
+mobItemDrops:
+  - BLAZE
+  - MAGMA_CUBE
+  - WITHER_SKELETON
+  - PIGLIN
+  - HOGLIN
+
+initialLives: 2
+
+keepInventoryOnEnter: true
+keepInventoryOnDeath: false
+keepInventoryOnFinish: true
+keepInventoryOnEscape: true
+
+breakBlocks: false
+placeBlocks: false
+
+messages:
+  '1': '&4&l[Świątynia] &cOgnista świątynia pełna magmy i blaze''ów.'
+  '2': '&4&l[Władca] &cWładca Ognia materializuje się!'
+  '3': '&c&l[Świątynia] &7Pokonanie Władcy Ognia! Nagrody czekają.'
+
+title:
+  title: '&4Świątynia Ognia'
+  subtitle: '&cTrudny — nether, magma, boss'
+  fadeIn: 0.5
+  show: 3.5
+  fadeOut: 1.0
+
+time: 18000
+rain: false
+thunder: false

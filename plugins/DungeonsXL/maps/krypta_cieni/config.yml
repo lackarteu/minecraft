@@ -1,0 +1,57 @@
+# Krypta Cieni — łatwy loch (1–4 graczy). Mapa: zbuduj w /dxl edit krypta_cieni, znaki wg SIGN_SETUP.txt
+# Po pierwszym /dxl create krypta_cieni nadpisz ten plik lub scal ustawienia.
+
+worldEnvironment: NORMAL
+
+invitedPlayers: []
+
+requirements:
+  groupSize:
+    minimum: 1
+    maximum: 4
+
+gameGoal:
+  type: END
+  timeToFinish: 2400
+
+gameMode: SURVIVAL
+fly: false
+playerVersusPlayer: false
+friendlyFire: false
+
+timeUntilKickOfflinePlayer: 120
+timeToNextWave: 8
+timeToNextLoot: 5
+
+mobExpDrops: true
+mobItemDrops:
+  - ZOMBIE
+  - SKELETON
+  - HUSK
+  - STRAY
+
+initialLives: 3
+
+keepInventoryOnEnter: true
+keepInventoryOnDeath: true
+keepInventoryOnFinish: true
+keepInventoryOnEscape: true
+
+breakBlocks: false
+placeBlocks: false
+
+messages:
+  '1': '&8&l[Krypta] &7Opuszczona krypta pełna szkieletów i zombie. Dotrzyj do sali bossa!'
+  '2': '&8&l[Strażnik] &7Strażnik Krypty budzi się!'
+  '3': '&a&l[Krypta] &7Pokonałeś Strażnika Krypty! Zbierz łupy.'
+
+title:
+  title: '&8Krypta Cieni'
+  subtitle: '&7Łatwy — szkielety, zombie, boss'
+  fadeIn: 0.5
+  show: 3.0
+  fadeOut: 1.0
+
+time: 18000
+rain: false
+thunder: false

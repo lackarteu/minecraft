@@ -16,3 +16,5 @@ gui_menus:
     file: rpg_teleport.yml
   rpg_players:
     file: rpg_players.yml
+  rpg_dungeons:
+    file: rpg_dungeons.yml

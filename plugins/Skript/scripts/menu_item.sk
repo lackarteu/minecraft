@@ -3,7 +3,7 @@
 
 options:
 	menu_item_name: §6≋ Menu ≋
-	menu_item_lore: §7Prawoklik = otwórz menu
+	menu_item_lore: §7Prawoklik = otwórz menu RPG
 
 on load:
 	send "[menu_item] Załadowano (slot 8, /menu)." to console
@@ -17,10 +17,6 @@ function menu_item_ensure(p: player):
 	set slot 8 of inventory of {_p} to enchanted book named {_n} with lore "{@menu_item_lore}"
 
 on join:
-	wait 3 ticks
-	menu_item_ensure(player)
-
-on respawn:
 	wait 3 ticks
 	menu_item_ensure(player)
 

@@ -30,3 +30,24 @@ RPG_Rozdzka_Smoka_Chaosu:
   - KNOCKBACK:2
   - MENDING:1
   - DURABILITY:2
+
+RPG_Krypta_Trofeum:
+  Id: IRON_SWORD
+  Display: '&8&lZnamię Krypty'
+  Lore:
+  - '&7Pamiątka ze Strażnika Krypty.'
+  - '&8Krypta Cieni — łatwy loch.'
+  Enchantments:
+  - DAMAGE_ALL:3
+  - DURABILITY:2
+
+RPG_Swiatynia_Serce_Ognia:
+  Id: NETHERITE_SWORD
+  Display: '&4&lSerce Ognia'
+  Lore:
+  - '&7Unikat ze Świątyni Ognia.'
+  - '&cOstrze skute netherową magią.'
+  Enchantments:
+  - DAMAGE_ALL:4
+  - FIRE_ASPECT:2
+  - DURABILITY:3
