@@ -1,0 +1,48 @@
+# Książka menu w ostatnim slocie paska (slot 8): /menu przy PPM, bez wyrzucania.
+# /sk reload menu_item
+
+options:
+	menu_item_name: §6≋ Menu ≋
+	menu_item_lore: §7Prawoklik = otwórz menu
+
+on load:
+	send "[menu_item] Załadowano (slot 8, /menu)." to console
+
+function menu_item_ensure(p: player):
+	set {_n} to "{@menu_item_name}"
+	set {_s} to slot 8 of inventory of {_p}
+	{_s} is enchanted book:
+		name of {_s} is {_n}:
+			stop
+	set slot 8 of inventory of {_p} to enchanted book named {_n} with lore "{@menu_item_lore}"
+
+on join:
+	wait 3 ticks
+	menu_item_ensure(player)
+
+on respawn:
+	wait 3 ticks
+	menu_item_ensure(player)
+
+on player drop:
+	event-item is not enchanted book:
+		stop
+	name of event-item is not "{@menu_item_name}":
+		stop
+	cancel event
+	wait 1 tick
+	set slot 8 of inventory of player to enchanted book named "{@menu_item_name}" with lore "{@menu_item_lore}"
+
+on death of player:
+	loop drops:
+		loop-value is enchanted book:
+			name of loop-value is "{@menu_item_name}":
+				remove loop-value from drops
+
+on rightclick holding enchanted book:
+	player's gamemode is spectator:
+		stop
+	name of player's tool is not "{@menu_item_name}":
+		stop
+	cancel event
+	execute player command "/menu"
