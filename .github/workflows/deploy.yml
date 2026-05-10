@@ -20,6 +20,8 @@ jobs:
             cd /home/minecraft/server
             git pull origin main
             mkdir -p plugins
+            # SimpleDungeons — budowa na VPS (JDK 21 + Maven)
+            mvn -f src/pom.xml package && cp src/target/SimpleDungeons.jar plugins/SimpleDungeons.jar
             # Każdy plugin: osobna linia [ -f ... ] || wget ... — inaczej JAR nie trafia na VPS.
             # Przy zmianie wersji Paper/Minecraft zaktualizuj URL-e (release notes pluginów).
 

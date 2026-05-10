@@ -1,0 +1,4 @@
+# Ustawienia globalne są w dungeons.yml (sekcja settings).
+# Edytuj plugins/SimpleDungeons/dungeons.yml
+
+version: 1

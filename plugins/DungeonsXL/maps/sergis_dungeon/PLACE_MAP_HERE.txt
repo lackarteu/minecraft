@@ -1,0 +1,2 @@
+Umieść tutaj pełny folder świata Minecraft (level.dat, region/, itd.) pod nazwą używaną w SimpleDungeons (dungeons.yml → template-folder: sergis_dungeon).
+Możesz skopiować istniejącą mapę z DungeonsXL lub z backupu. Bez tego /dungeon join krypta_cieni zgłosi błąd kopiowania.

@@ -1,0 +1,41 @@
+SimpleDungeons — sugestie kompletnego „panelu lochów” na serwerze
+================================================================
+
+1) DeluxeMenus / GUI
+   - Przyciski otwierające: /dungeon join <id> (lub komenda konsoli jako gracz).
+   - Osobne menu: lista lochów, wymagania (min/max), status instancji.
+
+2) PlaceholderAPI (własna ekspansja lub skrypt)
+   - %simpledungeons_in_instance%, %simpledungeons_instance_mobs_left% — wymaga małego rozszerzenia API pluginu.
+
+3) Cooldowny i koszty
+   - W dungeons.yml: cooldown-sekundy, opłata Vault — dołożyć sekcję requirements w przyszłej wersji.
+
+4) Statystyki i rankingi
+   - Zapis czasu przejścia do SQLite / pliku; top czasów na tablicy hologramowej.
+
+5) Fale i trudność
+   - Rozszerz moby o „fale” (wave 1–N) zamiast jednego worka mobów.
+
+6) Bezpieczeństwo światów
+   - Blokada wejścia do sd_* dla graczy spoza instancji (PlayerPortalEvent / WorldLoad).
+
+7) Współistnienie z DungeonsXL
+   - Ten plugin kopiuje surowy folder mapy z plugins/DungeonsXL/maps/<folder>.
+   - Nie uruchamiaj dwóch systemów na tej samej kopii świata jednocześnie; trzymaj spójne nazwy folderów.
+
+8) Skript / NPC
+   - Citizens: klik NPC → /dungeon join … dla graczy bez komend.
+
+9) Monitoring
+   - Loguj start/koniec instancji do pliku; alert przy długim czasie życia świata (wyciek folderu).
+
+10) Deploy
+   - Na VPS: JDK 21 + Maven przed linią mvn w deploy.yml (np. apt install openjdk-21-jdk-headless maven).
+
+11) SimpleDungeons (własny plugin)
+   - Komendy: /dungeon list | join <id> | leave
+   - Szablon mapy: skopiuj folder świata do plugins/DungeonsXL/maps/sergis_dungeon/ (pełny świat MC).
+   - MythicMobs musi znać moba bossa (np. Krypta_StraznikKrypty).
+   - Party: SimpleClans (refleksja) lub gracze w promieniu party-radius od lidera przy join.
+   - Światy instancji: sd_<id>_<nr> — nie wgrywaj ich ręcznie do repo (duże pliki).

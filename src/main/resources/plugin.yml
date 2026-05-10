@@ -1,0 +1,21 @@
+name: SimpleDungeons
+version: ${project.version}
+main: eu.lackart.simpledungeons.SimpleDungeonsPlugin
+api-version: '1.21'
+description: Instanced dungeons with MythicMobs bosses
+author: lackarteu
+website: https://github.com/lackarteu/minecraft
+
+commands:
+  dungeon:
+    description: SimpleDungeons — lochy instancyjne
+    usage: /dungeon <join|leave|list> [nazwa]
+    permission: simpledungeons.use
+
+permissions:
+  simpledungeons.use:
+    description: Podstawowe komendy /dungeon
+    default: true
+  simpledungeons.admin:
+    description: Administracja (przyszłe rozszerzenia)
+    default: op

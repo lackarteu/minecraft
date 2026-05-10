@@ -1,0 +1,48 @@
+# SimpleDungeons — kopiuj do plugins/SimpleDungeons/dungeons.yml (generowane przy pierwszym starcie jeśli brak)
+#
+# Sugestie panelu / rozbudowy: zobacz plugins/SimpleDungeons/PANEL_SUGESTIE.txt w repo
+
+settings:
+  # Świat docelowy po /dungeon leave i po ukończeniu bossa
+  spawn-world: world
+  # Jeśli SimpleClans nie działa lub gracz bez klanu — zbiórka party w promieniu (bloki)
+  party-radius: 24.0
+  # Próbuj użyć SimpleClans (refleksja, bez zależności Maven)
+  use-simple-clans: true
+  # Wiadomość broadcastu po bossie ({player} = ostatni uderzający, {dungeon} = nazwa)
+  boss-broadcast: "&6[Loch] &eGrupa &f{player} &eukończyła &f{dungeon}&e!"
+
+dungeons:
+  krypta_cieni:
+    display-name: "&8Krypta Cieni"
+    # Katalog źródłowy: {template-base-path}/{template-folder}
+    template-folder: sergis_dungeon
+    template-base-path: plugins/DungeonsXL/maps
+    min-players: 2
+    max-players: 4
+    # Spawn graczy — względem spawnu skopiowanego świata (dodane do world spawn)
+    player-spawn-offset:
+      x: 0.5
+      y: 0
+      z: 0.5
+    mob-arena:
+      center-x: 0
+      center-y: 64
+      center-z: 0
+      spread: 5
+    mobs:
+      ZOMBIE: 10
+      SKELETON: 10
+      SPIDER: 5
+    boss:
+      mythic-id: Krypta_StraznikKrypty
+      offset-x: 0
+      offset-y: 0
+      offset-z: 8
+    loot:
+      - material: IRON_INGOT
+        amount: 5
+      - material: GOLD_INGOT
+        amount: 2
+      - material: DIAMOND
+        amount: 1
