@@ -20,6 +20,10 @@ on join:
 	wait 3 ticks
 	menu_item_ensure(player)
 
+on respawn:
+	wait 3 ticks
+	menu_item_ensure(player)
+
 on player drop:
 	event-item is not enchanted book:
 		stop
