@@ -43,15 +43,11 @@ function rpg_open_class_gui(p: player):
 on inventory click:
 	name of event-inventory is "{@gui-name}":
 		cancel event
-		event-slot is gray stained glass pane:
-			stop
-		index of event-slot is 11:
+		if index of event-slot is 11:
 			rpg_apply_warrior(player)
-			stop
-		index of event-slot is 13:
+		if index of event-slot is 13:
 			rpg_apply_mage(player)
-			stop
-		index of event-slot is 15:
+		if index of event-slot is 15:
 			rpg_apply_archer(player)
 
 function rpg_lp_set_class(p: player, group: text):
