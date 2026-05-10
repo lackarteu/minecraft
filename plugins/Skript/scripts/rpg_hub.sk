@@ -1,0 +1,661 @@
+# RPG Hub — /menu, prawy klik kompasem, submenu (klasa, staty, klan, TP, lochy).
+# Klasa: {class::%uuid gracza%} (np. wojownik | mag | lucznik). Zmiana max 1x / 24h.
+# AuraSkills: opcja {@as_cmd} (skills / auraskills). Mag: cecha max_mana (nie istnieje stat „mana”).
+# Lochy: DungeonsXL — /dxl join|leave; lista {@dungeon_*} w opcjach.
+# Awans skilla AuraSkills na czacie: czysty Skript nie widzi eventów Aurelium.
+# Rozwiązanie: skrypt-placeholders + co ~60 s porównuj %auraskills_power% (lub inny placeholder) i broadcast przy wzroście.
+# /sk reload rpg_hub
+
+options:
+	p: &7[&6RPG Hub&7]&r
+	as_cmd: auraskills
+	lp_w: rpg_wojownik
+	lp_m: rpg_mag
+	lp_l: rpg_lucznik
+	# Menu — dokładne tytuły (§)
+	main_title: §6§l≋ Menu Główne ≋
+	class_title: §6§l≋ Klasa ≋
+	stats_title: §a§l≋ Statystyki ≋
+	clan_title: §6§l≋ Klan ≋
+	tp_title: §b§l≋ Teleport ≋
+	dung_title: §d§l≋ Lochy ≋
+	players_title: §e§l≋ Gracze online ≋
+	clan_kick_title: §c§l≋ Wyrzuć z klanu ≋
+	confirm_title: §c§l≋ Potwierdź zmianę klasy ≋
+	# DungeonsXL — nazwa wyświetlana / argument /dxl join
+	dungeon_1_name: §aŁatwy §7— §fLoch Startowy
+	dungeon_1_id: start
+	dungeon_2_name: §eŚredni §7— §fJaskinia Głębi
+	dungeon_2_id: glebia
+	dungeon_3_name: §cTrudny §7— §fKrypta
+	dungeon_3_id: krypta
+
+on load:
+	send "[rpg_hub] Załadowano. /menu, kompas PPM, komendy /rpgklan ..." to console
+
+# ── śmierci, zabójstwa, boss Mythic (jeden event) ────────────────────────────
+on death of player:
+	add 1 to {rpg_dc::%uuid of victim%}
+	attacker is a player:
+		add 1 to {rpg_kc::%uuid of attacker%}
+	attacker is not set:
+		stop
+	attacker is a player:
+		stop
+	set {_n} to uncolored name of attacker
+	{_n} contains "Strażnik":
+		rpg_boss_broadcast(victim, attacker)
+		stop
+	{_n} contains "Król":
+		rpg_boss_broadcast(victim, attacker)
+		stop
+	{_n} contains "Smok":
+		rpg_boss_broadcast(victim, attacker)
+		stop
+
+function rpg_boss_broadcast(v: player, a: entity):
+	broadcast "{@p} &4&l[BOSS] &c%name of {_v}% &7zginął od &f%name of {_a}%&7!"
+
+# ── wejście: migracja ze starej zmiennej + brak klasy → submenu klasy ───────
+on join:
+	wait 35 ticks
+	{class::%uuid of player%} is not set:
+		{rpg::class::%uuid of player%} is set:
+			set {class::%uuid of player%} to {rpg::class::%uuid of player%}
+	{class::%uuid of player%} is not set:
+		rpg_open_class(player)
+
+# ── kompas PPM ──────────────────────────────────────────────────────────────
+on rightclick holding compass:
+	player's gamemode is spectator:
+		stop
+	rpg_open_main(player)
+
+command /menu:
+	aliases: rpgmenu, hub
+	executable by: players
+	description: Otwórz menu RPG
+	trigger:
+		rpg_open_main(player)
+
+# ═══════════════════════════════════════════════════════════════════════════
+#  GŁÓWNE MENU (54 sloty)
+# ═══════════════════════════════════════════════════════════════════════════
+
+function rpg_fill_black(inv: inventory):
+	loop integers from 0 to 53:
+		set slot loop-value of {_inv} to black stained glass pane named "§8 "
+
+function rpg_open_main(pl: player):
+	set {_inv} to chest inventory with 6 rows named "{@main_title}"
+	rpg_fill_black({_inv})
+	set slot 11 of {_inv} to golden sword named "§c⚔ Klasa" with lore "§7Wybór / zmiana klasy"
+	set slot 13 of {_inv} to emerald named "§a✦ Statystyki" with lore "§7AuraSkills, klasa, klan, K/D"
+	set slot 15 of {_inv} to golden helmet named "§6☠ Klan" with lore "§7Twój klan RPG (Skript)"
+	set slot 29 of {_inv} to ender pearl named "§b↪ Teleport" with lore "§7Homes, TP, gracze"
+	set slot 31 of {_inv} to book named "§e✉ Gracze online" with lore "§7Lista nicków"
+	set slot 33 of {_inv} to map named "§d⚑ Lochy" with lore "§7DungeonsXL — min. 2 graczy"
+	set slot 49 of {_inv} to compass named "§7✖ Zamknij" with lore "§8Zamknij menu"
+	open {_inv} to {_pl}
+
+# ═══════════════════════════════════════════════════════════════════════════
+#  SUBMENU KLASA
+# ═══════════════════════════════════════════════════════════════════════════
+
+function rpg_open_class(pl: player):
+	set {_inv} to chest inventory with 6 rows named "{@class_title}"
+	rpg_fill_black({_inv})
+	set slot 10 of {_inv} to iron sword named "§c§lWojownik" with lore "§7Start: złoty miecz + żelazo", "§7Bonus: §f+50 health §7(AuraSkills)", "§8Pierwszy wybór = pakiet startowy"
+	set slot 13 of {_inv} to blaze rod named "§5§lMag" with lore "§7Start: laska + szata", "§7Bonus: §f+100 max_mana §7(cecha)", "§8Pierwszy wybór = pakiet startowy"
+	set slot 16 of {_inv} to bow named "§a§lŁucznik" with lore "§7Start: łuk + skóra", "§7Bonus: §f+10 speed §7(stat)", "§8Pierwszy wybór = pakiet startowy"
+	{class::%uuid of {_pl}%} is set:
+		set slot 28 of {_inv} to paper named "§e§lTwoja klasa" with lore "§f%rpg_class_label({_pl})%", "§7Zmiana: §c1× na 24h §7(usunie stare modyfikatory)."
+		set slot 30 of {_inv} to barrier named "§c§lZmień klasę…" with lore "§7Otwiera potwierdzenie", "§8Następnie wybierz klasę z góry."
+		set slot 32 of {_inv} to lime dye named "§a§lOK — wybierz nową" with lore "§7Kliknij §cWojownik/Mag/Łucznik", "§7jeśli cooldown minął."
+	else:
+		set slot 31 of {_inv} to experience bottle named "§b§lPierwszy wybór" with lore "§7Wybierz klasę powyżej."
+	set slot 45 of {_inv} to arrow named "§7← Powrót" with lore "§8Menu główne"
+	open {_inv} to {_pl}
+
+function rpg_class_label(pl: player) :: text:
+	{class::%uuid of {_pl}%} is not set:
+		return "brak"
+	{class::%uuid of {_pl}%} is "wojownik":
+		return "Wojownik"
+	{class::%uuid of {_pl}%} is "mag":
+		return "Mag"
+	{class::%uuid of {_pl}%} is "lucznik":
+		return "Łucznik"
+	return "%{class::%uuid of {_pl}%}%"
+
+function rpg_can_change_class(pl: player) :: boolean:
+	{class::%uuid of {_pl}%} is not set:
+		return true
+	{class_cd::%uuid of {_pl}%} is not set:
+		return true
+	difference between now and {class_cd::%uuid of {_pl}%} is less than 24 hours:
+		return false
+	return true
+
+function rpg_cd_msg(pl: player):
+	send "{@p} &cZmianę klasy możesz wykonać raz na 24 godziny od ostatniej zmiany." to {_pl}
+
+function rpg_strip_class_mods(pl: player):
+	execute console command "{@as_cmd} modifier remove %name of {_pl}% hub_w_hp"
+	execute console command "{@as_cmd} trait remove %name of {_pl}% hub_m_mana"
+	execute console command "{@as_cmd} modifier remove %name of {_pl}% hub_a_spd"
+	# legacy z poprzedniego skryptu (opcjonalnie)
+	execute console command "{@as_cmd} modifier remove %name of {_pl}% warrior_hp"
+	execute console command "{@as_cmd} modifier remove %name of {_pl}% warrior_str"
+	execute console command "{@as_cmd} trait remove %name of {_pl}% mage_mm"
+	execute console command "{@as_cmd} trait remove %name of {_pl}% mage_mr"
+	execute console command "{@as_cmd} trait remove %name of {_pl}% archer_ms"
+	execute console command "{@as_cmd} modifier remove %name of {_pl}% archer_str"
+
+function rpg_lp_set(pl: player, cls: text):
+	execute console command "lp user %name of {_pl}% parent remove {@lp_w}"
+	execute console command "lp user %name of {_pl}% parent remove {@lp_m}"
+	execute console command "lp user %name of {_pl}% parent remove {@lp_l}"
+	{_cls} is "wojownik":
+		execute console command "lp user %name of {_pl}% parent add {@lp_w}"
+	{_cls} is "mag":
+		execute console command "lp user %name of {_pl}% parent add {@lp_m}"
+	{_cls} is "lucznik":
+		execute console command "lp user %name of {_pl}% parent add {@lp_l}"
+
+function rpg_apply_class(pl: player, id: text, is_first: boolean):
+	rpg_strip_class_mods({_pl})
+	{id} is "wojownik":
+		rpg_lp_set({_pl}, "wojownik")
+		execute console command "{@as_cmd} modifier add %name of {_pl}% health hub_w_hp 50 add false false"
+		{_is_first} is true:
+			rpg_kit_warrior({_pl})
+		send "{@p} &aKlasa: &cWojownik&a." to {_pl}
+		stop
+	{id} is "mag":
+		rpg_lp_set({_pl}, "mag")
+		execute console command "{@as_cmd} trait add %name of {_pl}% max_mana hub_m_mana 100 add false false"
+		{_is_first} is true:
+			rpg_kit_mage({_pl})
+		send "{@p} &aKlasa: &5Mag&a." to {_pl}
+		stop
+	{id} is "lucznik":
+		rpg_lp_set({_pl}, "lucznik")
+		execute console command "{@as_cmd} modifier add %name of {_pl}% speed hub_a_spd 10 add false false"
+		{_is_first} is true:
+			rpg_kit_archer({_pl})
+		send "{@p} &aKlasa: &aŁucznik&a." to {_pl}
+		stop
+
+function rpg_kit_warrior(pl: player):
+	give 1 golden sword named "§6§lMiecz wojownika" to {_pl}
+	give 1 iron helmet to {_pl}
+	give 1 iron chestplate to {_pl}
+	give 1 iron leggings to {_pl}
+	give 1 iron boots to {_pl}
+
+function rpg_kit_mage(pl: player):
+	give 1 stick named "§5§lLaska maga" to {_pl}
+	give 1 leather helmet to {_pl}
+	give 1 leather chestplate named "§5§lSzata" to {_pl}
+	give 1 leather leggings to {_pl}
+	give 1 leather boots to {_pl}
+
+function rpg_kit_archer(pl: player):
+	give 1 bow named "§a§lŁuk łucznika" to {_pl}
+	give 64 arrow to {_pl}
+	give 1 leather helmet to {_pl}
+	give 1 leather chestplate to {_pl}
+	give 1 leather leggings to {_pl}
+	give 1 leather boots to {_pl}
+
+function rpg_try_set_class(pl: player, id: text):
+	set {_had} to false
+	{class::%uuid of {_pl}%} is set:
+		set {_had} to true
+		rpg_can_change_class({_pl}) is false:
+			rpg_cd_msg({_pl})
+			stop
+	set {_first} to true
+	{_had} is true:
+		set {_first} to false
+	set {class::%uuid of {_pl}%} to {_id}
+	rpg_apply_class({_pl}, {_id}, {_first})
+	{_first} is false:
+		set {class_cd::%uuid of {_pl}%} to now
+
+function rpg_open_class_confirm(pl: player):
+	set {_inv} to chest inventory with 3 rows named "{@confirm_title}"
+	rpg_fill_black({_inv})
+	set slot 11 of {_inv} to red concrete named "§c§lAnuluj"
+	set slot 15 of {_inv} to lime concrete named "§a§lPotwierdzam zmianę" with lore "§7Wróć do menu klasy", "§7i wybierz nową profesję."
+	open {_inv} to {_pl}
+
+# ═══════════════════════════════════════════════════════════════════════════
+#  SUBMENU STATYSTYKI
+# ═══════════════════════════════════════════════════════════════════════════
+
+function rpg_open_stats(pl: player):
+	set {_inv} to chest inventory with 6 rows named "{@stats_title}"
+	rpg_fill_black({_inv})
+	set {_d} to {rpg_dc::%uuid of {_pl}%}
+	{_d} is not set:
+		set {_d} to 0
+	set {_k} to {rpg_kc::%uuid of {_pl}%}
+	{_k} is not set:
+		set {_k} to 0
+	set {_cn} to "§8—"
+	{rpg_klan_name::%uuid of {_pl}%} is set:
+		set {_cn} to {rpg_klan_name::%uuid of {_pl}%}
+	set slot 22 of {_inv} to book named "§a§lPodsumowanie" with lore "§7Klasa: §f%rpg_class_label({_pl})%", "§7Klan: §f%{_cn}%", "§7Śmierci: §c%{_d}%", "§7Zabójstwa graczy: §a%{_k}%", "§8──", "§7Szczegóły skilli: §f/skills", "§7Statystyki: §f/stats"
+	set slot 45 of {_inv} to arrow named "§7← Powrót"
+	open {_inv} to {_pl}
+
+# ═══════════════════════════════════════════════════════════════════════════
+#  SUBMENU KLAN (Skript)
+# ═══════════════════════════════════════════════════════════════════════════
+
+function rpg_clan_of(pl: player) :: text:
+	{rpg_klan_name::%uuid of {_pl}%} is set:
+		return {rpg_klan_name::%uuid of {_pl}%}
+	return ""
+
+function rpg_is_leader(pl: player) :: boolean:
+	set {_c} to rpg_clan_of({_pl})
+	{_c} is "":
+		return false
+	{rpg_klan_leader::%{_c}%} is uuid of {_pl}:
+		return true
+	return false
+
+function rpg_open_clan(pl: player):
+	set {_inv} to chest inventory with 6 rows named "{@clan_title}"
+	rpg_fill_black({_inv})
+	set {_c} to rpg_clan_of({_pl})
+	{_c} is "":
+		set slot 20 of {_inv} to emerald named "§a§lUtwórz klan" with lore "§7Użyj: §f/rpgklan utworz <nazwa>"
+		set slot 24 of {_inv} to oak door named "§e§lDołącz do klanu" with lore "§7Użyj: §f/rpgklan dolacz <nazwa>"
+	else:
+		set slot 19 of {_inv} to player head named "§6§lCzłonkowie" with lore "§7Kliknij — lista online z klanu"
+		set slot 21 of {_inv} to writable book named "§a§lZaproś gracza" with lore "§7Użyj: §f/rpgklan zapros <nick>"
+		set slot 23 of {_inv} to barrier named "§c§lOpuść klan" with lore "§7/rpgklan opusc"
+		set slot 25 of {_inv} to bed named "§b§lBaza klanu" with lore "§7Ustaw: §f/rpgklan baza", "§7TP: klik tutaj (jeśli ustawiona)"
+		rpg_is_leader({_pl}) is true:
+			set slot 29 of {_inv} to iron axe named "§c§lWyrzuć gracza" with lore "§7Tylko lider — wybierz członka"
+	set slot 45 of {_inv} to arrow named "§7← Powrót"
+	open {_inv} to {_pl}
+
+function rpg_open_clan_members(pl: player):
+	set {_inv} to chest inventory with 6 rows named "§6§l≋ Klan: członkowie ≋"
+	rpg_fill_black({_inv})
+	set {_c} to rpg_clan_of({_pl})
+	set {_i} to 10
+	loop all players:
+		{rpg_klan_name::%uuid of loop-player%} is {_c}:
+			{_i} > 43:
+				stop loop
+			set slot {_i} of {_inv} to player head named "§f%name of loop-player%" with lore "§7Online"
+			add 1 to {_i}
+	set slot 45 of {_inv} to arrow named "§7← Klan"
+	open {_inv} to {_pl}
+
+function rpg_open_clan_kick(pl: player):
+	rpg_is_leader({_pl}) is false:
+		send "{@p} &cTylko lider może wyrzucać." to {_pl}
+		stop
+	set {_inv} to chest inventory with 6 rows named "{@clan_kick_title}"
+	rpg_fill_black({_inv})
+	set {_c} to rpg_clan_of({_pl})
+	set {_i} to 10
+	loop all players:
+		uuid of loop-player is not uuid of {_pl}:
+			{rpg_klan_name::%uuid of loop-player%} is {_c}:
+				{_i} > 43:
+					stop loop
+				set slot {_i} of {_inv} to player head named "§c%name of loop-player%" with lore "§7Klik = wyrzuć"
+				add 1 to {_i}
+	set slot 45 of {_inv} to arrow named "§7← Klan"
+	open {_inv} to {_pl}
+
+# ═══════════════════════════════════════════════════════════════════════════
+#  SUBMENU TELEPORT
+# ═══════════════════════════════════════════════════════════════════════════
+
+function rpg_open_tp(pl: player):
+	set {_inv} to chest inventory with 6 rows named "{@tp_title}"
+	rpg_fill_black({_inv})
+	set slot 11 of {_inv} to ender pearl named "§b§lTP do gracza" with lore "§7Lista online"
+	set slot 15 of {_inv} to lime dye named "§a§lAkceptuj TP" with lore "§7/tpaccept"
+	set slot 17 of {_inv} to red dye named "§c§lOdrzuć TP" with lore "§7/tpdeny"
+	set slot 21 of {_inv} to bed named "§e§lUstaw dom" with lore "§7/sethome"
+	set slot 23 of {_inv} to compass named "§e§lIdź do domu" with lore "§7/home"
+	set slot 25 of {_inv} to skeleton skull named "§8§lPowrót po śmierci" with lore "§7/back"
+	set slot 45 of {_inv} to arrow named "§7← Powrót"
+	open {_inv} to {_pl}
+
+function rpg_open_players(pl: player):
+	set {_inv} to chest inventory with 6 rows named "{@players_title}"
+	rpg_fill_black({_inv})
+	set {_i} to 10
+	loop all players:
+		{_i} > 43:
+			stop loop
+		set slot {_i} of {_inv} to player head named "§f%name of loop-player%" with lore "§7Klik: teleport (jeśli masz uprawnienia)"
+		add 1 to {_i}
+	set slot 45 of {_inv} to arrow named "§7← Menu"
+	open {_inv} to {_pl}
+
+function rpg_open_tp_pick(pl: player):
+	rpg_open_players({_pl})
+
+# ═══════════════════════════════════════════════════════════════════════════
+#  SUBMENU LOCHY (DungeonsXL)
+# ═══════════════════════════════════════════════════════════════════════════
+
+function rpg_open_dungeons(pl: player):
+	set {_inv} to chest inventory with 6 rows named "{@dung_title}"
+	rpg_fill_black({_inv})
+	set slot 11 of {_inv} to map named "{@dungeon_1_name}" with lore "§7/dxl join {@dungeon_1_id}", "§8Min. graczy: 2"
+	set slot 13 of {_inv} to map named "{@dungeon_2_name}" with lore "§7/dxl join {@dungeon_2_id}", "§8Min. graczy: 2"
+	set slot 15 of {_inv} to map named "{@dungeon_3_name}" with lore "§7/dxl join {@dungeon_3_id}", "§8Min. graczy: 2"
+	set slot 29 of {_inv} to iron sword named "§a§lZapisz drużynę" with lore "§7Kliknij loch powyżej —", "§7wykonuje §f/dxl join <id>"
+	set slot 31 of {_inv} to oak door named "§c§lWyjdź z lochu" with lore "§7/dxl leave"
+	set slot 33 of {_inv} to book named "§e§lZasady" with lore "§7Zbierz §f2+ §7graczy.", "§7Leader zapisuje drużynę do lochu."
+	set slot 45 of {_inv} to arrow named "§7← Powrót"
+	open {_inv} to {_pl}
+
+# ═══════════════════════════════════════════════════════════════════════════
+#  Kliknięcia — routing
+# ═══════════════════════════════════════════════════════════════════════════
+
+on inventory click:
+	name of event-inventory is "{@main_title}":
+		cancel event
+		index of event-slot is 11:
+			rpg_open_class(player)
+		index of event-slot is 13:
+			rpg_open_stats(player)
+		index of event-slot is 15:
+			rpg_open_clan(player)
+		index of event-slot is 29:
+			rpg_open_tp(player)
+		index of event-slot is 31:
+			rpg_open_players(player)
+		index of event-slot is 33:
+			rpg_open_dungeons(player)
+		index of event-slot is 49:
+			close inventory of player
+		stop
+
+	name of event-inventory is "{@class_title}":
+		cancel event
+		index of event-slot is 45:
+			rpg_open_main(player)
+			stop
+		index of event-slot is 10:
+			rpg_handle_class_pick(player, "wojownik")
+			stop
+		index of event-slot is 13:
+			rpg_handle_class_pick(player, "mag")
+			stop
+		index of event-slot is 16:
+			rpg_handle_class_pick(player, "lucznik")
+			stop
+		index of event-slot is 30:
+			{class::%uuid of player%} is not set:
+				send "{@p} &7Najpierw wybierz klasę." to player
+				stop
+			rpg_open_class_confirm(player)
+			stop
+		stop
+
+	name of event-inventory is "{@confirm_title}":
+		cancel event
+		index of event-slot is 11:
+			rpg_open_class(player)
+		index of event-slot is 15:
+			set {rpg_confirm_change::%uuid of player%} to true
+			send "{@p} &eWróć do menu klasy i wybierz nową profesję." to player
+			rpg_open_class(player)
+		stop
+
+	name of event-inventory is "{@stats_title}":
+		cancel event
+		index of event-slot is 45:
+			rpg_open_main(player)
+		stop
+
+	name of event-inventory is "{@clan_title}":
+		cancel event
+		index of event-slot is 45:
+			rpg_open_main(player)
+			stop
+		index of event-slot is 20:
+			send "{@p} &7Utwórz: &f/rpgklan utworz <nazwa>" to player
+			stop
+		index of event-slot is 24:
+			send "{@p} &7Dołącz: &f/rpgklan dolacz <nazwa>" to player
+			stop
+		index of event-slot is 19:
+			rpg_open_clan_members(player)
+			stop
+		index of event-slot is 23:
+			execute player command "rpgklan opusc"
+			wait 2 ticks
+			rpg_open_clan(player)
+			stop
+		index of event-slot is 25:
+			rpg_teleport_clan_home(player)
+			stop
+		index of event-slot is 29:
+			rpg_open_clan_kick(player)
+			stop
+		stop
+
+	name of event-inventory is "§6§l≋ Klan: członkowie ≋":
+		cancel event
+		index of event-slot is 45:
+			rpg_open_clan(player)
+		stop
+
+	name of event-inventory is "{@clan_kick_title}":
+		cancel event
+		index of event-slot is 45:
+			rpg_open_clan(player)
+			stop
+		clicked item is player head:
+			set {_t} to uncolored name of clicked item
+			loop all players:
+				name of loop-player is {_t}:
+					rpg_kick_from_clan(player, loop-player)
+					rpg_open_clan(player)
+					stop
+		stop
+
+	name of event-inventory is "{@tp_title}":
+		cancel event
+		index of event-slot is 45:
+			rpg_open_main(player)
+			stop
+		index of event-slot is 11:
+			rpg_open_tp_pick(player)
+			stop
+		index of event-slot is 15:
+			execute player command "/tpaccept"
+			stop
+		index of event-slot is 17:
+			execute player command "/tpdeny"
+			stop
+		index of event-slot is 21:
+			execute player command "/sethome"
+			stop
+		index of event-slot is 23:
+			execute player command "/home"
+			stop
+		index of event-slot is 25:
+			execute player command "/back"
+			stop
+		stop
+
+	name of event-inventory is "{@players_title}":
+		cancel event
+		index of event-slot is 45:
+			rpg_open_main(player)
+			stop
+		clicked item is player head:
+			set {_name} to uncolored name of clicked item
+			execute player command "/tpa %{_name}%"
+			send "{@p} &7Wysłano prośbę TP do &f%{_name}%&7." to player
+			close inventory of player
+		stop
+
+	name of event-inventory is "{@dung_title}":
+		cancel event
+		index of event-slot is 45:
+			rpg_open_main(player)
+			stop
+		index of event-slot is 11:
+			execute player command "/dxl join {@dungeon_1_id}"
+			stop
+		index of event-slot is 13:
+			execute player command "/dxl join {@dungeon_2_id}"
+			stop
+		index of event-slot is 15:
+			execute player command "/dxl join {@dungeon_3_id}"
+			stop
+		index of event-slot is 31:
+			execute player command "/dxl leave"
+			stop
+		stop
+
+function rpg_handle_class_pick(pl: player, id: text):
+	{class::%uuid of {_pl}%} is set:
+		{rpg_confirm_change::%uuid of {_pl}%} is not true:
+			send "{@p} &cMasz już klasę. Użyj §fZmień klasę §7i potwierdź zmianę." to {_pl}
+			stop
+	rpg_try_set_class({_pl}, {_id})
+	set {rpg_confirm_change::%uuid of {_pl}%} to false
+	close inventory of {_pl}
+	send "{@p} &aZapisano klasę." to {_pl}
+
+function rpg_teleport_clan_home(pl: player):
+	set {_c} to rpg_clan_of({_pl})
+	{_c} is "":
+		send "{@p} &cNie masz klanu." to {_pl}
+		stop
+	{rpg_klan_home::%{_c}%} is not set:
+		send "{@p} &cBaza nie ustawiona. Lider: &f/rpgklan baza" to {_pl}
+		stop
+	teleport {_pl} to {rpg_klan_home::%{_c}%}
+
+function rpg_roster_remove(c: text, u: text):
+	set {_copy::*} to {rpg_klan_roster::%{_c}%::*}
+	delete {rpg_klan_roster::%{_c}%::*}
+	loop {_copy::*}:
+		loop-value is not {_u}:
+			add loop-value to {rpg_klan_roster::%{_c}%::*}
+
+function rpg_kick_from_clan(leader: player, target: player):
+	rpg_is_leader({_leader}) is false:
+		stop
+	set {_c} to rpg_clan_of({_leader})
+	{_c} is "":
+		stop
+	rpg_clan_of({_target}) is not {_c}:
+		stop
+	delete {rpg_klan_name::%uuid of {_target}%}
+	rpg_roster_remove({_c}, uuid of {_target})
+	send "{@p} &cWyrzucono z klanu przez lidera." to {_target}
+	send "{@p} &aWyrzucono &f%name of {_target}%&a." to {_leader}
+
+# ═══════════════════════════════════════════════════════════════════════════
+#  Komendy klanu
+# ═══════════════════════════════════════════════════════════════════════════
+
+command /rpgklan <text> [<text>]:
+	executable by: players
+	trigger:
+		set {_a} to arg-1
+		{_a} is "utworz":
+			arg-2 is not set:
+				send "{@p} &7/rpgklan utworz <nazwa>" to player
+				stop
+			{rpg_klan_name::%uuid of player%} is set:
+				send "{@p} &cMasz już klan." to player
+				stop
+			set {_name} to arg-2
+			{rpg_klan_leader::%{_name}%} is set:
+				send "{@p} &cTa nazwa jest zajęta." to player
+				stop
+			set {rpg_klan_name::%uuid of player%} to {_name}
+			set {rpg_klan_leader::%{_name}%} to uuid of player
+			add uuid of player to {rpg_klan_roster::%{_name}%::*}
+			send "{@p} &aUtworzono klan &f%{_name}%&a. &7Baza: /rpgklan baza" to player
+			stop
+		{_a} is "dolacz":
+			arg-2 is not set:
+				send "{@p} &7/rpgklan dolacz <nazwa>" to player
+				stop
+			{rpg_klan_name::%uuid of player%} is set:
+				send "{@p} &cNajpierw opuść klan." to player
+				stop
+			set {_name} to arg-2
+			{rpg_klan_leader::%{_name}%} is not set:
+				send "{@p} &cKlan nie istnieje." to player
+				stop
+			set {rpg_klan_name::%uuid of player%} to {_name}
+			add uuid of player to {rpg_klan_roster::%{_name}%::*}
+			send "{@p} &aDołączono do &f%{_name}%&a." to player
+			stop
+		{_a} is "opusc":
+			set {_c} to rpg_clan_of(player)
+			{_c} is "":
+				send "{@p} &cNie należysz do klanu." to player
+				stop
+			{rpg_klan_leader::%{_c}%} is uuid of player:
+				loop {rpg_klan_roster::%{_c}%::*}:
+					set {_u} to loop-value
+					delete {rpg_klan_name::%{_u}%}
+				delete {rpg_klan_leader::%{_c}%}
+				delete {rpg_klan_roster::%{_c}%::*}
+				delete {rpg_klan_home::%{_c}%}
+				send "{@p} &cKlan rozwiązany (lider)." to player
+				stop
+			delete {rpg_klan_name::%uuid of player%}
+			rpg_roster_remove({_c}, uuid of player)
+			send "{@p} &7Opuściłeś klan." to player
+			stop
+		{_a} is "baza":
+			set {_c} to rpg_clan_of(player)
+			{_c} is "":
+				send "{@p} &cBrak klanu." to player
+				stop
+			{rpg_klan_leader::%{_c}%} is not uuid of player:
+				send "{@p} &cTylko lider ustawia bazę." to player
+				stop
+			set {rpg_klan_home::%{_c}%} to location of player
+			send "{@p} &aBaza klanu ustawiona." to player
+			stop
+		{_a} is "zapros":
+			arg-2 is not set:
+				send "{@p} &7/rpgklan zapros <nick>" to player
+				stop
+			set {_c} to rpg_clan_of(player)
+			{_c} is "":
+				send "{@p} &cBrak klanu." to player
+				stop
+			set {_nick} to arg-2
+			loop all players:
+				name of loop-player is {_nick}:
+					send "{@p} &eZaproszenie do klanu &f%{_c}%&e — wpisz &f/rpgklan dolacz %{_c}%" to loop-player
+					send "{@p} &aWysłano zaproszenie do &f%{_nick}%&a." to player
+					stop
+			send "{@p} &cGracz offline lub zły nick." to player
+			stop
+		send "{@p} &7Podkomendy: utworz, dolacz, opusc, baza, zapros" to player
+
+# ── szkielet: awans AuraSkills (włącz po PlaceholderAPI + placeholderach AS) ─
+# every 60 seconds:
+#   loop all players:
+#     set {_p} to placeholder "auraskills_power" from loop-player
+#     ...
