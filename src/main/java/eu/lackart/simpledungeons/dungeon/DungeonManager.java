@@ -142,7 +142,7 @@ public final class DungeonManager {
             player.sendMessage(ChatColor.RED + "Nie jestes w lochu.");
             return false;
         }
-        inst.removeMember(player.getUniqueId());
+        inst.removeMember(player);
         playerToInstance.remove(player.getUniqueId());
         teleportToSpawn(player);
         player.sendMessage(ChatColor.YELLOW + "Opuszczasz loch.");
@@ -157,7 +157,7 @@ public final class DungeonManager {
         if (inst == null) {
             return;
         }
-        inst.removeMember(player.getUniqueId());
+        inst.removeMember(player);
         playerToInstance.remove(player.getUniqueId());
         if (inst.isEmpty() || !inst.hasAnyMemberOnline()) {
             destroyInstance(inst);
