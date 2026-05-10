@@ -1,6 +1,5 @@
 # Submenu teleportów — otwierane z głównego menu (slot 29).
 menu_title: '&b&l≋ Teleport ≋'
-open_command: []
 size: 54
 items:
   filler:
