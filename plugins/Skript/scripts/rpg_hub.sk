@@ -82,42 +82,41 @@ command /menu:
 #  GŁÓWNE MENU (54 sloty)
 # ═══════════════════════════════════════════════════════════════════════════
 
-function rpg_fill_black(inv: inventory, rows: number):
+function rpg_fill_black(pl: player, rows: number):
 	set {_last} to {_rows} * 9 - 1
 	loop integers from 0 to {_last}:
-		set slot loop-value of {_inv} to black stained glass pane named "§8 "
+		set slot loop-value of current inventory of {_pl} to black stained glass pane named "§8 "
 
 function rpg_open_main(pl: player):
-	# Skript 2.15: „with N rows named …” + tytuł w cudzysłowie (text component); N=6 → 54 sloty
-	set {_inv} to chest inventory with 6 rows named "{@main_title}"
-	rpg_fill_black({_inv}, 6)
-	set slot 11 of {_inv} to golden sword named "§c⚔ Klasa" with lore "§7Wybór / zmiana klasy"
-	set slot 13 of {_inv} to emerald named "§a✦ Statystyki" with lore "§7AuraSkills, klasa, klan, K/D"
-	set slot 15 of {_inv} to golden helmet named "§6☠ Klan" with lore "§7Twój klan RPG (Skript)"
-	set slot 29 of {_inv} to ender pearl named "§b↪ Teleport" with lore "§7Homes, TP, gracze"
-	set slot 31 of {_inv} to book named "§e✉ Gracze online" with lore "§7Lista nicków"
-	set slot 33 of {_inv} to map named "§d⚑ Lochy" with lore "§7DungeonsXL — min. 2 graczy"
-	set slot 49 of {_inv} to compass named "§7✖ Zamknij" with lore "§8Zamknij menu"
-	open {_inv} to {_pl}
+	open chest inventory with 6 rows named "{@main_title}" to {_pl}
+	wait 1 tick
+	rpg_fill_black({_pl}, 6)
+	set slot 11 of current inventory of {_pl} to golden sword named "§c⚔ Klasa" with lore "§7Wybór / zmiana klasy"
+	set slot 13 of current inventory of {_pl} to emerald named "§a✦ Statystyki" with lore "§7AuraSkills, klasa, klan, K/D"
+	set slot 15 of current inventory of {_pl} to golden helmet named "§6☠ Klan" with lore "§7Twój klan RPG (Skript)"
+	set slot 29 of current inventory of {_pl} to ender pearl named "§b↪ Teleport" with lore "§7Homes, TP, gracze"
+	set slot 31 of current inventory of {_pl} to book named "§e✉ Gracze online" with lore "§7Lista nicków"
+	set slot 33 of current inventory of {_pl} to map named "§d⚑ Lochy" with lore "§7DungeonsXL — min. 2 graczy"
+	set slot 49 of current inventory of {_pl} to compass named "§7✖ Zamknij" with lore "§8Zamknij menu"
 
 # ═══════════════════════════════════════════════════════════════════════════
 #  SUBMENU KLASA
 # ═══════════════════════════════════════════════════════════════════════════
 
 function rpg_open_class(pl: player):
-	set {_inv} to chest inventory with 6 rows named "{@class_title}"
-	rpg_fill_black({_inv}, 6)
-	set slot 10 of {_inv} to iron sword named "§c§lWojownik" with lore "§7Start: złoty miecz + żelazo", "§7Bonus: §f+50 health §7(AuraSkills)", "§8Pierwszy wybór = pakiet startowy"
-	set slot 13 of {_inv} to blaze rod named "§5§lMag" with lore "§7Start: laska + szata", "§7Bonus: §f+100 max_mana §7(cecha)", "§8Pierwszy wybór = pakiet startowy"
-	set slot 16 of {_inv} to bow named "§a§lŁucznik" with lore "§7Start: łuk + skóra", "§7Bonus: §f+10 speed §7(stat)", "§8Pierwszy wybór = pakiet startowy"
+	open chest inventory with 6 rows named "{@class_title}" to {_pl}
+	wait 1 tick
+	rpg_fill_black({_pl}, 6)
+	set slot 10 of current inventory of {_pl} to iron sword named "§c§lWojownik" with lore "§7Start: złoty miecz + żelazo", "§7Bonus: §f+50 health §7(AuraSkills)", "§8Pierwszy wybór = pakiet startowy"
+	set slot 13 of current inventory of {_pl} to blaze rod named "§5§lMag" with lore "§7Start: laska + szata", "§7Bonus: §f+100 max_mana §7(cecha)", "§8Pierwszy wybór = pakiet startowy"
+	set slot 16 of current inventory of {_pl} to bow named "§a§lŁucznik" with lore "§7Start: łuk + skóra", "§7Bonus: §f+10 speed §7(stat)", "§8Pierwszy wybór = pakiet startowy"
 	{class::%uuid of {_pl}%} is set:
-		set slot 28 of {_inv} to paper named "§e§lTwoja klasa" with lore "§f%rpg_class_label({_pl})%", "§7Zmiana: §c1× na 24h §7(usunie stare modyfikatory)."
-		set slot 30 of {_inv} to barrier named "§c§lZmień klasę…" with lore "§7Otwiera potwierdzenie", "§8Następnie wybierz klasę z góry."
-		set slot 32 of {_inv} to lime dye named "§a§lOK — wybierz nową" with lore "§7Kliknij §cWojownik/Mag/Łucznik", "§7jeśli cooldown minął."
+		set slot 28 of current inventory of {_pl} to paper named "§e§lTwoja klasa" with lore "§f%rpg_class_label({_pl})%", "§7Zmiana: §c1× na 24h §7(usunie stare modyfikatory)."
+		set slot 30 of current inventory of {_pl} to barrier named "§c§lZmień klasę…" with lore "§7Otwiera potwierdzenie", "§8Następnie wybierz klasę z góry."
+		set slot 32 of current inventory of {_pl} to lime dye named "§a§lOK — wybierz nową" with lore "§7Kliknij §cWojownik/Mag/Łucznik", "§7jeśli cooldown minął."
 	else:
-		set slot 31 of {_inv} to experience bottle named "§b§lPierwszy wybór" with lore "§7Wybierz klasę powyżej."
-	set slot 45 of {_inv} to arrow named "§7← Powrót" with lore "§8Menu główne"
-	open {_inv} to {_pl}
+		set slot 31 of current inventory of {_pl} to experience bottle named "§b§lPierwszy wybór" with lore "§7Wybierz klasę powyżej."
+	set slot 45 of current inventory of {_pl} to arrow named "§7← Powrót" with lore "§8Menu główne"
 
 function rpg_class_label(pl: player) :: text:
 	{class::%uuid of {_pl}%} is not set:
@@ -227,19 +226,20 @@ function rpg_try_set_class(pl: player, id: text):
 		set {class_cd::%uuid of {_pl}%} to now
 
 function rpg_open_class_confirm(pl: player):
-	set {_inv} to chest inventory with 3 rows named "{@confirm_title}"
-	rpg_fill_black({_inv}, 3)
-	set slot 11 of {_inv} to red concrete named "§c§lAnuluj"
-	set slot 15 of {_inv} to lime concrete named "§a§lPotwierdzam zmianę" with lore "§7Wróć do menu klasy", "§7i wybierz nową profesję."
-	open {_inv} to {_pl}
+	open chest inventory with 3 rows named "{@confirm_title}" to {_pl}
+	wait 1 tick
+	rpg_fill_black({_pl}, 3)
+	set slot 11 of current inventory of {_pl} to red concrete named "§c§lAnuluj"
+	set slot 15 of current inventory of {_pl} to lime concrete named "§a§lPotwierdzam zmianę" with lore "§7Wróć do menu klasy", "§7i wybierz nową profesję."
 
 # ═══════════════════════════════════════════════════════════════════════════
 #  SUBMENU STATYSTYKI
 # ═══════════════════════════════════════════════════════════════════════════
 
 function rpg_open_stats(pl: player):
-	set {_inv} to chest inventory with 6 rows named "{@stats_title}"
-	rpg_fill_black({_inv}, 6)
+	open chest inventory with 6 rows named "{@stats_title}" to {_pl}
+	wait 1 tick
+	rpg_fill_black({_pl}, 6)
 	set {_d} to {rpg_dc::%uuid of {_pl}%}
 	{_d} is not set:
 		set {_d} to 0
@@ -249,9 +249,8 @@ function rpg_open_stats(pl: player):
 	set {_cn} to "§8—"
 	{rpg_klan_name::%uuid of {_pl}%} is set:
 		set {_cn} to {rpg_klan_name::%uuid of {_pl}%}
-	set slot 22 of {_inv} to book named "§a§lPodsumowanie" with lore "§7Klasa: §f%rpg_class_label({_pl})%", "§7Klan: §f%{_cn}%", "§7Śmierci: §c%{_d}%", "§7Zabójstwa graczy: §a%{_k}%", "§8──", "§7Szczegóły skilli: §f/skills", "§7Statystyki: §f/stats"
-	set slot 45 of {_inv} to arrow named "§7← Powrót"
-	open {_inv} to {_pl}
+	set slot 22 of current inventory of {_pl} to book named "§a§lPodsumowanie" with lore "§7Klasa: §f%rpg_class_label({_pl})%", "§7Klan: §f%{_cn}%", "§7Śmierci: §c%{_d}%", "§7Zabójstwa graczy: §a%{_k}%", "§8──", "§7Szczegóły skilli: §f/skills", "§7Statystyki: §f/stats"
+	set slot 45 of current inventory of {_pl} to arrow named "§7← Powrót"
 
 # ═══════════════════════════════════════════════════════════════════════════
 #  SUBMENU KLAN (Skript)
@@ -271,42 +270,43 @@ function rpg_is_leader(pl: player) :: boolean:
 	return false
 
 function rpg_open_clan(pl: player):
-	set {_inv} to chest inventory with 6 rows named "{@clan_title}"
-	rpg_fill_black({_inv}, 6)
+	open chest inventory with 6 rows named "{@clan_title}" to {_pl}
+	wait 1 tick
+	rpg_fill_black({_pl}, 6)
 	set {_c} to rpg_clan_of({_pl})
 	{_c} is "":
-		set slot 20 of {_inv} to emerald named "§a§lUtwórz klan" with lore "§7Użyj: §f/rpgklan utworz <nazwa>"
-		set slot 24 of {_inv} to oak door named "§e§lDołącz do klanu" with lore "§7Użyj: §f/rpgklan dolacz <nazwa>"
+		set slot 20 of current inventory of {_pl} to emerald named "§a§lUtwórz klan" with lore "§7Użyj: §f/rpgklan utworz <nazwa>"
+		set slot 24 of current inventory of {_pl} to oak door named "§e§lDołącz do klanu" with lore "§7Użyj: §f/rpgklan dolacz <nazwa>"
 	else:
-		set slot 19 of {_inv} to player head named "§6§lCzłonkowie" with lore "§7Kliknij — lista online z klanu"
-		set slot 21 of {_inv} to writable book named "§a§lZaproś gracza" with lore "§7Użyj: §f/rpgklan zapros <nick>"
-		set slot 23 of {_inv} to barrier named "§c§lOpuść klan" with lore "§7/rpgklan opusc"
-		set slot 25 of {_inv} to bed named "§b§lBaza klanu" with lore "§7Ustaw: §f/rpgklan baza", "§7TP: klik tutaj (jeśli ustawiona)"
+		set slot 19 of current inventory of {_pl} to player head named "§6§lCzłonkowie" with lore "§7Kliknij — lista online z klanu"
+		set slot 21 of current inventory of {_pl} to writable book named "§a§lZaproś gracza" with lore "§7Użyj: §f/rpgklan zapros <nick>"
+		set slot 23 of current inventory of {_pl} to barrier named "§c§lOpuść klan" with lore "§7/rpgklan opusc"
+		set slot 25 of current inventory of {_pl} to bed named "§b§lBaza klanu" with lore "§7Ustaw: §f/rpgklan baza", "§7TP: klik tutaj (jeśli ustawiona)"
 		rpg_is_leader({_pl}) is true:
-			set slot 29 of {_inv} to iron axe named "§c§lWyrzuć gracza" with lore "§7Tylko lider — wybierz członka"
-	set slot 45 of {_inv} to arrow named "§7← Powrót"
-	open {_inv} to {_pl}
+			set slot 29 of current inventory of {_pl} to iron axe named "§c§lWyrzuć gracza" with lore "§7Tylko lider — wybierz członka"
+	set slot 45 of current inventory of {_pl} to arrow named "§7← Powrót"
 
 function rpg_open_clan_members(pl: player):
-	set {_inv} to chest inventory with 6 rows named "§6§l≋ Klan: członkowie ≋"
-	rpg_fill_black({_inv}, 6)
+	open chest inventory with 6 rows named "§6§l≋ Klan: członkowie ≋" to {_pl}
+	wait 1 tick
+	rpg_fill_black({_pl}, 6)
 	set {_c} to rpg_clan_of({_pl})
 	set {_i} to 10
 	loop all players:
 		{rpg_klan_name::%uuid of loop-player%} is {_c}:
 			{_i} > 43:
 				stop loop
-			set slot {_i} of {_inv} to player head named "§f%name of loop-player%" with lore "§7Online"
+			set slot {_i} of current inventory of {_pl} to player head named "§f%name of loop-player%" with lore "§7Online"
 			add 1 to {_i}
-	set slot 45 of {_inv} to arrow named "§7← Klan"
-	open {_inv} to {_pl}
+	set slot 45 of current inventory of {_pl} to arrow named "§7← Klan"
 
 function rpg_open_clan_kick(pl: player):
 	rpg_is_leader({_pl}) is false:
 		send "{@p} &cTylko lider może wyrzucać." to {_pl}
 		stop
-	set {_inv} to chest inventory with 6 rows named "{@clan_kick_title}"
-	rpg_fill_black({_inv}, 6)
+	open chest inventory with 6 rows named "{@clan_kick_title}" to {_pl}
+	wait 1 tick
+	rpg_fill_black({_pl}, 6)
 	set {_c} to rpg_clan_of({_pl})
 	set {_i} to 10
 	loop all players:
@@ -314,38 +314,37 @@ function rpg_open_clan_kick(pl: player):
 			{rpg_klan_name::%uuid of loop-player%} is {_c}:
 				{_i} > 43:
 					stop loop
-				set slot {_i} of {_inv} to player head named "§c%name of loop-player%" with lore "§7Klik = wyrzuć"
+				set slot {_i} of current inventory of {_pl} to player head named "§c%name of loop-player%" with lore "§7Klik = wyrzuć"
 				add 1 to {_i}
-	set slot 45 of {_inv} to arrow named "§7← Klan"
-	open {_inv} to {_pl}
+	set slot 45 of current inventory of {_pl} to arrow named "§7← Klan"
 
 # ═══════════════════════════════════════════════════════════════════════════
 #  SUBMENU TELEPORT
 # ═══════════════════════════════════════════════════════════════════════════
 
 function rpg_open_tp(pl: player):
-	set {_inv} to chest inventory with 6 rows named "{@tp_title}"
-	rpg_fill_black({_inv}, 6)
-	set slot 11 of {_inv} to ender pearl named "§b§lTP do gracza" with lore "§7Lista online"
-	set slot 15 of {_inv} to lime dye named "§a§lAkceptuj TP" with lore "§7/tpaccept"
-	set slot 17 of {_inv} to red dye named "§c§lOdrzuć TP" with lore "§7/tpdeny"
-	set slot 21 of {_inv} to bed named "§e§lUstaw dom" with lore "§7/sethome"
-	set slot 23 of {_inv} to compass named "§e§lIdź do domu" with lore "§7/home"
-	set slot 25 of {_inv} to skeleton skull named "§8§lPowrót po śmierci" with lore "§7/back"
-	set slot 45 of {_inv} to arrow named "§7← Powrót"
-	open {_inv} to {_pl}
+	open chest inventory with 6 rows named "{@tp_title}" to {_pl}
+	wait 1 tick
+	rpg_fill_black({_pl}, 6)
+	set slot 11 of current inventory of {_pl} to ender pearl named "§b§lTP do gracza" with lore "§7Lista online"
+	set slot 15 of current inventory of {_pl} to lime dye named "§a§lAkceptuj TP" with lore "§7/tpaccept"
+	set slot 17 of current inventory of {_pl} to red dye named "§c§lOdrzuć TP" with lore "§7/tpdeny"
+	set slot 21 of current inventory of {_pl} to bed named "§e§lUstaw dom" with lore "§7/sethome"
+	set slot 23 of current inventory of {_pl} to compass named "§e§lIdź do domu" with lore "§7/home"
+	set slot 25 of current inventory of {_pl} to skeleton skull named "§8§lPowrót po śmierci" with lore "§7/back"
+	set slot 45 of current inventory of {_pl} to arrow named "§7← Powrót"
 
 function rpg_open_players(pl: player):
-	set {_inv} to chest inventory with 6 rows named "{@players_title}"
-	rpg_fill_black({_inv}, 6)
+	open chest inventory with 6 rows named "{@players_title}" to {_pl}
+	wait 1 tick
+	rpg_fill_black({_pl}, 6)
 	set {_i} to 10
 	loop all players:
 		{_i} > 43:
 			stop loop
-		set slot {_i} of {_inv} to player head named "§f%name of loop-player%" with lore "§7Klik: teleport (jeśli masz uprawnienia)"
+		set slot {_i} of current inventory of {_pl} to player head named "§f%name of loop-player%" with lore "§7Klik: teleport (jeśli masz uprawnienia)"
 		add 1 to {_i}
-	set slot 45 of {_inv} to arrow named "§7← Menu"
-	open {_inv} to {_pl}
+	set slot 45 of current inventory of {_pl} to arrow named "§7← Menu"
 
 function rpg_open_tp_pick(pl: player):
 	rpg_open_players({_pl})
@@ -355,16 +354,16 @@ function rpg_open_tp_pick(pl: player):
 # ═══════════════════════════════════════════════════════════════════════════
 
 function rpg_open_dungeons(pl: player):
-	set {_inv} to chest inventory with 6 rows named "{@dung_title}"
-	rpg_fill_black({_inv}, 6)
-	set slot 11 of {_inv} to map named "{@dungeon_1_name}" with lore "§7/dxl join {@dungeon_1_id}", "§8Min. graczy: 2"
-	set slot 13 of {_inv} to map named "{@dungeon_2_name}" with lore "§7/dxl join {@dungeon_2_id}", "§8Min. graczy: 2"
-	set slot 15 of {_inv} to map named "{@dungeon_3_name}" with lore "§7/dxl join {@dungeon_3_id}", "§8Min. graczy: 2"
-	set slot 29 of {_inv} to iron sword named "§a§lZapisz drużynę" with lore "§7Kliknij loch powyżej —", "§7wykonuje §f/dxl join <id>"
-	set slot 31 of {_inv} to oak door named "§c§lWyjdź z lochu" with lore "§7/dxl leave"
-	set slot 33 of {_inv} to book named "§e§lZasady" with lore "§7Zbierz §f2+ §7graczy.", "§7Leader zapisuje drużynę do lochu."
-	set slot 45 of {_inv} to arrow named "§7← Powrót"
-	open {_inv} to {_pl}
+	open chest inventory with 6 rows named "{@dung_title}" to {_pl}
+	wait 1 tick
+	rpg_fill_black({_pl}, 6)
+	set slot 11 of current inventory of {_pl} to map named "{@dungeon_1_name}" with lore "§7/dxl join {@dungeon_1_id}", "§8Min. graczy: 2"
+	set slot 13 of current inventory of {_pl} to map named "{@dungeon_2_name}" with lore "§7/dxl join {@dungeon_2_id}", "§8Min. graczy: 2"
+	set slot 15 of current inventory of {_pl} to map named "{@dungeon_3_name}" with lore "§7/dxl join {@dungeon_3_id}", "§8Min. graczy: 2"
+	set slot 29 of current inventory of {_pl} to iron sword named "§a§lZapisz drużynę" with lore "§7Kliknij loch powyżej —", "§7wykonuje §f/dxl join <id>"
+	set slot 31 of current inventory of {_pl} to oak door named "§c§lWyjdź z lochu" with lore "§7/dxl leave"
+	set slot 33 of current inventory of {_pl} to book named "§e§lZasady" with lore "§7Zbierz §f2+ §7graczy.", "§7Leader zapisuje drużynę do lochu."
+	set slot 45 of current inventory of {_pl} to arrow named "§7← Powrót"
 
 # ═══════════════════════════════════════════════════════════════════════════
 #  Kliknięcia — routing
