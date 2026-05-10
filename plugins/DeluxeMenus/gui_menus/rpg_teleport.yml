@@ -1,4 +1,4 @@
-# Submenu teleportów — otwierane z głównego menu (slot 29).
+# Submenu teleportów — tylko [openguimenu] rpg_teleport z rpg_hub (brak open_command).
 menu_title: '&b&l≋ Teleport ≋'
 size: 54
 items:

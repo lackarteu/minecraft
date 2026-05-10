@@ -1,4 +1,5 @@
-# RPG — menu główne (/menu). Jeśli Skript nadal rejestruje /menu, wyłącz tamten trigger lub zmień open_command.
+# RPG — menu główne. Plik w gui_menus/ (standard DeluxeMenus 1.14.x).
+# Po deploy na VPS: usuń stare duplikaty, np. plugins/DeluxeMenus/menus/*.yml oraz gui_menus/rpg_hub_tp.yml jeśli istnieje.
 menu_title: '&6&l≋ Menu Główne ≋'
 open_command: menu
 size: 54
@@ -85,7 +86,7 @@ items:
     lore:
       - '&7Homes, TP, akceptacja'
     left_click_commands:
-      - '[openguimenu] rpg_hub_tp'
+      - '[openguimenu] rpg_teleport'
   players_btn:
     material: BOOK
     slot: 31

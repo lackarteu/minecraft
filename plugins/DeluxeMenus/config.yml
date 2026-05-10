@@ -1,5 +1,10 @@
-# DeluxeMenus — repozytorium (VPS ma własny JAR). Po deploy: /dm reload
+# DeluxeMenus 1.14.x — wpisy file: są względem folderu plugins/DeluxeMenus/gui_menus/
 # https://wiki.helpch.at/helpchat-plugins/deluxemenus/files
+#
+# Po pull na VPS usuń duplikaty, żeby nie ładować menu dwa razy:
+#   - plugins/DeluxeMenus/menus/ (jeśli istnieje — nieużywany, stary układ)
+#   - plugins/DeluxeMenus/gui_menus/rpg_hub_tp.yml (stara nazwa; teraz: rpg_teleport.yml)
+# Następnie: /dm reload
 
 debug: LOWEST
 check_updates: true
@@ -7,5 +12,5 @@ check_updates: true
 gui_menus:
   rpg_hub:
     file: rpg_hub.yml
-  rpg_hub_tp:
-    file: rpg_hub_tp.yml
+  rpg_teleport:
+    file: rpg_teleport.yml
