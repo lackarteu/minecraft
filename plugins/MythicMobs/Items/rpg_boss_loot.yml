@@ -1,0 +1,32 @@
+RPG_Miecz_Straznika_Lasu:
+  Id: IRON_SWORD
+  Display: '&2&lKorzenny Gniew'
+  Lore:
+  - '&7Unikalny miecz Strażnika Lasu.'
+  - '&8Z lasu, który pamięta starą magię.'
+  Enchantments:
+  - DAMAGE_ALL:5
+  - DURABILITY:3
+  - LOOT_BONUS_MOBS:2
+
+RPG_Zbroja_Krola_Podziemi:
+  Id: DIAMOND_CHESTPLATE
+  Display: '&8&lKarapaks Króla Podziemi'
+  Lore:
+  - '&7Pancerz wykuty w głębinach.'
+  - '&8Chłód jaskini w jego metalu.'
+  Enchantments:
+  - PROTECTION_ENVIRONMENTAL:4
+  - DURABILITY:3
+  - THORNS:2
+
+RPG_Rozdzka_Smoka_Chaosu:
+  Id: BLAZE_ROD
+  Display: '&5&lRóżdżka Chaosu'
+  Lore:
+  - '&7Kanał mocy ze Skraju.'
+  - '&dWzmacnia zdolności many i magii.'
+  Enchantments:
+  - KNOCKBACK:2
+  - MENDING:1
+  - DURABILITY:2

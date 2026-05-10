@@ -1,0 +1,82 @@
+# Bossowie RPG — spawn: mm m spawn <wewnętrzna_nazwa> <świat> (lub spawner losowy)
+
+StraznikLasu:
+  Type: RAVAGER
+  Display: '&2&lStrażnik Lasu'
+  Health: 500
+  Damage: 10
+  Options:
+    AlwaysShowName: true
+    PreventOtherDrops: true
+    KnockbackResistance: 0.8
+    FollowRange: 40
+    MovementSpeed: 0.28
+  BossBar:
+    Enabled: true
+    Title: '&2Strażnik Lasu'
+    Range: 64
+    Color: GREEN
+    Style: SEGMENTED_12
+  Skills:
+  - message{m="&8[&2&lBOSS&8] &aStrażnik Lasu &7obudził się w lesie!";audience=nearbyplayers} @self ~onSpawn
+  - message{m="&8[&2&lBOSS&8] &aStrażnik Lasu &7 został pokonany!";audience=nearbyplayers} @self ~onDeath
+  - skill{s=RPG_Straznik_Uderzenie_Ziemi} ~onTimer:140
+  - skill{s=RPG_Straznik_Korzenie} ~onTimer:220
+  - skill{s=RPG_Straznik_Wataha} ~onTimer:320
+  Drops:
+  - RPG_Miecz_Straznika_Lasu 1 1
+  - exp 800 1
+
+KrolPodziemi:
+  Type: WARDEN
+  Display: '&8&lKról Podziemi'
+  Health: 1000
+  Damage: 14
+  Options:
+    AlwaysShowName: true
+    PreventOtherDrops: true
+    KnockbackResistance: 0.85
+    FollowRange: 48
+    MovementSpeed: 0.22
+  BossBar:
+    Enabled: true
+    Title: '&8Król Podziemi'
+    Range: 72
+    Color: RED
+    Style: SEGMENTED_10
+  Skills:
+  - message{m="&8[&4&lBOSS&8] &7Król Podziemi &8wypełza z głębin!";audience=nearbyplayers} @self ~onSpawn
+  - message{m="&8[&4&lBOSS&8] &7Król Podziemi &8runął w ciszy jaskini!";audience=nearbyplayers} @self ~onDeath
+  - skill{s=RPG_Krol_Soniczny_Cios} ~onTimer:120
+  - skill{s=RPG_Krol_Ciemna_Chmura} ~onTimer:200
+  - skill{s=RPG_Krol_Roj_Srebrnych} ~onTimer:280
+  Drops:
+  - RPG_Zbroja_Krola_Podziemi 1 1
+  - exp 1500 1
+
+SmokChaosu:
+  Type: ENDERMAN
+  Display: '&5&lSmok Chaosu'
+  Health: 2000
+  Damage: 16
+  Options:
+    AlwaysShowName: true
+    PreventOtherDrops: true
+    KnockbackResistance: 0.9
+    FollowRange: 56
+    MovementSpeed: 0.32
+  BossBar:
+    Enabled: true
+    Title: '&5Smok Chaosu'
+    Range: 80
+    Color: PURPLE
+    Style: SEGMENTED_20
+  Skills:
+  - message{m="&8[&5&lBOSS&8] &dSmok Chaosu &5przecina granicę Endu!";audience=nearbyplayers} @self ~onSpawn
+  - message{m="&8[&5&lBOSS&8] &dSmok Chaosu &5rozpłynął w pustce!";audience=nearbyplayers} @self ~onDeath
+  - skill{s=RPG_Smok_Oddech_Pustki} ~onTimer:100
+  - skill{s=RPG_Smok_Skok_Pustki} ~onTimer:170
+  - skill{s=RPG_Smok_Rozpad_Grawitacji} ~onTimer:260
+  Drops:
+  - RPG_Rozdzka_Smoka_Chaosu 1 1
+  - exp 3000 1

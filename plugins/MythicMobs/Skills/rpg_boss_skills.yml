@@ -1,0 +1,62 @@
+# Umiejętności RPG — Strażnik Lasu, Król Podziemi, Smok Chaosu (MythicMobs 5.x)
+
+RPG_Straznik_Uderzenie_Ziemi:
+  Cooldown: 12
+  Skills:
+  - effect:sound{s=entity.ravager.roar;v=2;p=0.85} @selflocation
+  - effect:particles{p=explosion;a=14;hs=1;vs=0.35;y=0.15} @PIR{r=10}
+  - damage{a=8;pkb=true} @PIR{r=8}
+
+RPG_Straznik_Korzenie:
+  Cooldown: 18
+  Skills:
+  - effect:sound{s=block.grass.break;v=1.5;p=0.6} @selflocation
+  - effect:particles{p=spore_blossom_air;a=40;hs=1.5;vs=0.8;y=1} @PIR{r=14}
+  - potion{type=SLOW;duration=100;level=3} @PIR{r=14}
+  - potion{type=SLOW_DIGGING;duration=80;level=2} @PIR{r=14}
+
+RPG_Straznik_Wataha:
+  Cooldown: 26
+  Skills:
+  - effect:sound{s=entity.wolf.howl;v=2;p=1.1} @selflocation
+  - summon{type=WOLF;amount=4;radius=4;velocity=0.15} @self
+
+RPG_Krol_Soniczny_Cios:
+  Cooldown: 11
+  Skills:
+  - effect:sound{s=entity.warden.sonic_boom;v=2;p=1} @selflocation
+  - effect:particles{p=sonic_boom;a=25;hs=0.5;vs=0.5;y=1.2} @PIR{r=18}
+  - damage{a=14} @PIR{r=18}
+
+RPG_Krol_Ciemna_Chmura:
+  Cooldown: 17
+  Skills:
+  - effect:particles{p=sneeze;a=30;hs=1.2;vs=0.6;y=1.5} @PIR{r=12}
+  - potion{type=POISON;duration=120;level=2} @PIR{r=12}
+  - potion{type=BLINDNESS;duration=70;level=1} @PIR{r=12}
+
+RPG_Krol_Roj_Srebrnych:
+  Cooldown: 24
+  Skills:
+  - effect:sound{s=entity.silverfish.ambient;v=1.8;p=0.7} @selflocation
+  - summon{type=SILVERFISH;amount=8;radius=5;velocity=0.2} @self
+
+RPG_Smok_Oddech_Pustki:
+  Cooldown: 9
+  Skills:
+  - effect:particles{p=dragon_breath;a=45;hs=1.3;vs=1.3;y=1.4;s=0.02} @PIR{r=11}
+  - damage{a=11;element=MAGIC} @PIR{r=11}
+
+RPG_Smok_Skok_Pustki:
+  Cooldown: 15
+  Skills:
+  - effect:sound{s=entity.enderman.teleport;v=2;p=0.4} @selflocation
+  - effect:particles{p=reverse_portal;a=55;hs=2;vs=1.2;y=1} @PIR{r=16}
+  - damage{a=13;pkb=true} @PIR{r=16}
+
+RPG_Smok_Rozpad_Grawitacji:
+  Cooldown: 20
+  Skills:
+  - effect:sound{s=entity.elder_guardian.curse;v=1.5;p=0.8} @selflocation
+  - potion{type=LEVITATION;duration=35;level=1} @PIR{r=12}
+  - damage{a=9;element=MAGIC} @PIR{r=12}
