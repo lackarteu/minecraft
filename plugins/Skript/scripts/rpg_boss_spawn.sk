@@ -1,0 +1,110 @@
+# Losowy spawn bossów MythicMobs (mm mobs spawn) przy graczach w odpowiednim biomie.
+# Interwały: las 30 min, jaskinie 60 min, End 120 min.
+# Dopasuj {@world-main} i {@world-end} do nazw światów na serwerze.
+# /sk reload rpg_boss_spawn
+
+options:
+	world-main: world
+	world-end: world_the_end
+
+on load:
+	send "[rpg_boss_spawn] Timery: 30/60/120 min. Komenda: mm mobs spawn <mob> 1 <świat> <x> <y> <z>" to console
+
+every 1800 seconds:
+	rpg_try_spawn_boss("StraznikLasu", "{@world-main}", "forest")
+
+every 3600 seconds:
+	rpg_try_spawn_boss("KrolPodziemi", "{@world-main}", "cave")
+
+every 7200 seconds:
+	rpg_try_spawn_boss("SmokChaosu", "{@world-end}", "end")
+
+function rpg_biome_forest(p: player) :: boolean:
+	biome at {_p} is forest:
+		return true
+	biome at {_p} is flower_forest:
+		return true
+	biome at {_p} is birch_forest:
+		return true
+	biome at {_p} is dark_forest:
+		return true
+	biome at {_p} is old_growth_birch_forest:
+		return true
+	biome at {_p} is old_growth_pine_taiga:
+		return true
+	biome at {_p} is old_growth_spruce_taiga:
+		return true
+	biome at {_p} is taiga:
+		return true
+	biome at {_p} is cherry_grove:
+		return true
+	return false
+
+function rpg_biome_cave(p: player) :: boolean:
+	biome at {_p} is dripstone_caves:
+		return true
+	biome at {_p} is deep_dark:
+		return true
+	biome at {_p} is lush_caves:
+		return true
+	return false
+
+function rpg_biome_end(p: player) :: boolean:
+	biome at {_p} is the_end:
+		return true
+	biome at {_p} is end_highlands:
+		return true
+	biome at {_p} is end_midlands:
+		return true
+	biome at {_p} is small_end_islands:
+		return true
+	biome at {_p} is end_barrens:
+		return true
+	return false
+
+function rpg_try_spawn_boss(mob: text, world: text, kind: text):
+	delete {_pool::*}
+	loop all players:
+		name of world of loop-player is {_world}:
+			{_kind} is "forest":
+				rpg_biome_forest(loop-player) is true:
+					add loop-player to {_pool::*}
+			{_kind} is "cave":
+				rpg_biome_cave(loop-player) is true:
+					add loop-player to {_pool::*}
+			{_kind} is "end":
+				rpg_biome_end(loop-player) is true:
+					add loop-player to {_pool::*}
+	if {_pool::1} is not set:
+		send "[rpg_boss_spawn] Brak graczy w biomach dla %{_mob}% (świat %{_world}%)." to console
+		stop
+	set {_p} to random element out of {_pool::*}
+	if {_kind} is "forest":
+		set {_loc} to rpg_loc_surface_near({_p})
+	if {_kind} is "cave":
+		set {_loc} to rpg_loc_jitter({_p})
+	if {_kind} is "end":
+		set {_loc} to rpg_loc_jitter({_p})
+	set {_x} to round(x-coordinate of {_loc})
+	set {_y} to round(y-coordinate of {_loc})
+	set {_z} to round(z-coordinate of {_loc})
+	set {_wn} to name of world of {_loc}
+	execute console command "mm mobs spawn %{_mob}% 1 %{_wn}% %{_x}% %{_y}% %{_z}%"
+	send "[rpg_boss_spawn] Spawn %{_mob}% @ %{_wn}% %{_x}% %{_y}% %{_z}% (gracz %name of {_p}%)" to console
+
+function rpg_loc_surface_near(p: player) :: location:
+	set {_w} to world of {_p}
+	set {_x} to x-coordinate of {_p} + random integer between -80 and 80
+	set {_z} to z-coordinate of {_p} + random integer between -80 and 80
+	set {_probe} to location at {_x}, 320, {_z} in {_w}
+	set {_hb} to highest block at {_probe}
+	set {_base} to location of {_hb}
+	add 1 to y-coordinate of {_base}
+	return {_base}
+
+function rpg_loc_jitter(p: player) :: location:
+	set {_loc} to location of {_p}
+	add random integer between -30 and 30 to x-coordinate of {_loc}
+	add random integer between -30 and 30 to z-coordinate of {_loc}
+	add random integer between -12 and 12 to y-coordinate of {_loc}
+	return {_loc}

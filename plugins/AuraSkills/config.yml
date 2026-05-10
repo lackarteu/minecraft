@@ -3,25 +3,23 @@
 # |                    RPG: język PL + integracja MythicMobs                   | #
 # +----------------------------------------------------------------------------+ #
 #
-# --- Klasy RPG (Wojownik / Mag / Łucznik) ------------------------------------
-# AuraSkills nie przypina klas automatycznie. Po wyborze klasy (NPC, menu, LP)
-# uruchom JEDNORAZOWO z konsoli (podmień Nick):
+# --- Klasy RPG (Skript: plugins/Skript/scripts/rpg_klasa_gui.sk) --------------
+# Przy pierwszym wejściu GUI + LuckPerms (grupy rpg_wojownik / rpg_mag / rpg_lucznik).
+# Modyfikatory płaskie (ADD), komendy jak z konsoli (alias: skills lub auraskills):
 #
-# Wojownik — +50% HP, +25% siła (m.in. miecz):
-#   skills modifier add Nick health rpg_woj_hp 50 ADD_PERCENT false false
-#   skills modifier add Nick strength rpg_woj_str 25 ADD_PERCENT false false
+# Wojownik — health +50, strength +10:
+#   skills modifier add Nick health warrior_hp 50 add false false
+#   skills modifier add Nick strength warrior_str 10 add false false
 #
-# Mag — +50% maks. many, +35% regen many, +25% obrażenia krytyczne (proxy „magii”):
-#   skills trait add Nick max_mana rpg_mag_mana 50 ADD_PERCENT false false
-#   skills trait add Nick mana_regen rpg_mag_regen 35 ADD_PERCENT false false
-#   skills modifier add Nick crit_damage rpg_mag_spell 25 ADD_PERCENT false false
+# Mag — max_mana +100, mana_regen +20 (cechy, nie stat „mana”):
+#   skills trait add Nick max_mana mage_mm 100 add false false
+#   skills trait add Nick mana_regen mage_mr 20 add false false
 #
-# Łucznik — +20% prędkość ruchu, +25% siła (łuk korzysta z attack_damage):
-#   skills trait add Nick movement_speed rpg_lucz_spd 20 ADD_PERCENT false false
-#   skills modifier add Nick strength rpg_lucz_str 25 ADD_PERCENT false false
+# Łucznik — movement_speed +10, strength +8:
+#   skills trait add Nick movement_speed archer_ms 10 add false false
+#   skills modifier add Nick strength archer_str 8 add false false
 #
-# Zmiana klasy: skills modifier remove Nick <nazwa> / skills trait remove Nick <nazwa>
-# Uprawnienie: auraskills.command.modifier (oraz trait — pakiet admina).
+# Zmiana klasy: usuń grupy LP i modyfikatory po nazwie (modifier remove / trait remove).
 # -----------------------------------------------------------------------------
 
 sql:

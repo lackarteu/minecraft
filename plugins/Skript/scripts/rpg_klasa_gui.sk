@@ -1,0 +1,85 @@
+# Wybór klasy przy pierwszym wejściu (AuraSkills + LuckPerms).
+# LuckPerms: grupy {@lp-w}, {@lp-m}, {@lp-l} (tworzą się przy pierwszym parent add).
+# AuraSkills: modyfikatory płaskie (add), komenda domyślna "skills" — na serwerze może być alias /auraskills.
+# Po wrzuceniu: /sk reload rpg_klasa_gui
+
+options:
+	prefix: &7[&6RPG&7]&r
+	gui-name: RPG_KLASA
+	lp-w: rpg_wojownik
+	lp-m: rpg_mag
+	lp-l: rpg_lucznik
+	skill-cmd: skills
+
+on load:
+	send "[rpg_klasa_gui] Gotowe. GUI przy pierwszym join; /rpgklasa gdy gracz zamknął okno." to console
+
+on join:
+	wait 3 seconds
+	{rpg::class::%uuid of player%} is not set:
+		wait 1 second
+		rpg_open_class_gui(player)
+
+command /rpgklasa:
+	executable by: players
+	description: Otwórz wybór klasy (tylko jeśli jeszcze nie wybrano).
+	trigger:
+		{rpg::class::%uuid of player%} is set:
+			send "{@prefix} &cMasz już przypisaną klasę." to player
+			stop
+		rpg_open_class_gui(player)
+
+function rpg_open_class_gui(p: player):
+	set {_g} to chest inventory with 3 rows named "{@gui-name}"
+	set slot 11 of {_g} to iron sword named "&c&lWojownik" with lore "&7+50 health, +10 strength" and "&8LuckPerms: {@lp-w}"
+	set slot 13 of {_g} to blaze rod named "&5&lMag" with lore "&7+100 max_mana, +20 mana_regen" and "&8LuckPerms: {@lp-m}" and "&8(cechy: skills trait)"
+	set slot 15 of {_g} to bow named "&a&lŁucznik" with lore "&7+10 movement_speed, +8 strength" and "&8LuckPerms: {@lp-l}"
+	loop integers from 0 to 26:
+		if loop-value is not 11 and loop-value is not 13 and loop-value is not 15:
+			set slot loop-value of {_g} to gray stained glass pane named " "
+	open {_g} to {_p}
+	send "{@prefix} &7Wybierz klasę klikając miecz, różdżkę lub łuk." to {_p}
+
+on inventory click:
+	name of event-inventory is "{@gui-name}":
+		cancel event
+		event-slot is gray stained glass pane:
+			stop
+		index of event-slot is 11:
+			rpg_apply_warrior(player)
+			stop
+		index of event-slot is 13:
+			rpg_apply_mage(player)
+			stop
+		index of event-slot is 15:
+			rpg_apply_archer(player)
+
+function rpg_lp_set_class(p: player, group: text):
+	execute console command "lp user %name of {_p}% parent remove {@lp-w}"
+	execute console command "lp user %name of {_p}% parent remove {@lp-m}"
+	execute console command "lp user %name of {_p}% parent remove {@lp-l}"
+	execute console command "lp user %name of {_p}% parent add %{_group}%"
+
+function rpg_apply_warrior(p: player):
+	close inventory of {_p}
+	set {rpg::class::%uuid of {_p}%} to "wojownik"
+	rpg_lp_set_class({_p}, "{@lp-w}")
+	execute console command "{@skill-cmd} modifier add %name of {_p}% health warrior_hp 50 add false false"
+	execute console command "{@skill-cmd} modifier add %name of {_p}% strength warrior_str 10 add false false"
+	send "{@prefix} &aKlasa: &cWojownik&a (+50 health, +10 strength)." to {_p}
+
+function rpg_apply_mage(p: player):
+	close inventory of {_p}
+	set {rpg::class::%uuid of {_p}%} to "mag"
+	rpg_lp_set_class({_p}, "{@lp-m}")
+	execute console command "{@skill-cmd} trait add %name of {_p}% max_mana mage_mm 100 add false false"
+	execute console command "{@skill-cmd} trait add %name of {_p}% mana_regen mage_mr 20 add false false"
+	send "{@prefix} &aKlasa: &5Mag&a (+100 max_mana, +20 mana_regen)." to {_p}
+
+function rpg_apply_archer(p: player):
+	close inventory of {_p}
+	set {rpg::class::%uuid of {_p}%} to "lucznik"
+	rpg_lp_set_class({_p}, "{@lp-l}")
+	execute console command "{@skill-cmd} trait add %name of {_p}% movement_speed archer_ms 10 add false false"
+	execute console command "{@skill-cmd} modifier add %name of {_p}% strength archer_str 8 add false false"
+	send "{@prefix} &aKlasa: &aŁucznik&a (+10 movement_speed, +8 strength)." to {_p}
