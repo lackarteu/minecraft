@@ -58,9 +58,9 @@ items:
     slot: 11
     display_name: '&b&lTP do gracza'
     lore:
-      - '&7Użyj &f/tpa <nick>'
+      - '&7Lista graczy online'
     left_click_commands:
-      - '[message] &7Użyj: &f/tpa <nick>'
+      - '[openguimenu] rpg_players'
   tpaccept_btn:
     material: LIME_DYE
     slot: 15

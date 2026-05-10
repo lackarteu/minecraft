@@ -62,7 +62,7 @@ items:
     lore:
       - '&7Wybór / zmiana klasy'
     left_click_commands:
-      - '[player] rpg_class'
+      - '[player] skills'
   stats_btn:
     material: EMERALD
     slot: 13
@@ -102,7 +102,7 @@ items:
     lore:
       - '&7DungeonsXL'
     left_click_commands:
-      - '[player] dxl join'
+      - '[message] &cLochy są w przygotowaniu! Wróć wkrótce.'
   close_btn:
     material: COMPASS
     slot: 49

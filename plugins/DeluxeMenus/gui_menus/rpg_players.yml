@@ -1,0 +1,819 @@
+# Wymaga PAPI: /papi ecloud download playerlist && /papi reload
+# W plugins/PlaceholderAPI/config.yml dodaj liste 'online' (type: ONLINE, filter CANSEE).
+menu_title: '&b&l≋ Gracze Online ≋'
+size: 54
+update_interval: 20
+items:
+  filler:
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slots:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 17
+      - 18
+      - 26
+      - 27
+      - 35
+      - 36
+      - 44
+      - 45
+      - 53
+  pl_00:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_0%'
+    slot: 10
+    display_name: '&f&l%playerlist_online_0%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_0%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_0%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_0%'
+  pl_00_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 10
+  pl_01:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_1%'
+    slot: 11
+    display_name: '&f&l%playerlist_online_1%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_1%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_1%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_1%'
+  pl_01_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 11
+  pl_02:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_2%'
+    slot: 12
+    display_name: '&f&l%playerlist_online_2%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_2%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_2%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_2%'
+  pl_02_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 12
+  pl_03:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_3%'
+    slot: 13
+    display_name: '&f&l%playerlist_online_3%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_3%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_3%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_3%'
+  pl_03_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 13
+  pl_04:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_4%'
+    slot: 14
+    display_name: '&f&l%playerlist_online_4%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_4%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_4%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_4%'
+  pl_04_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 14
+  pl_05:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_5%'
+    slot: 15
+    display_name: '&f&l%playerlist_online_5%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_5%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_5%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_5%'
+  pl_05_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 15
+  pl_06:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_6%'
+    slot: 16
+    display_name: '&f&l%playerlist_online_6%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_6%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_6%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_6%'
+  pl_06_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 16
+  pl_07:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_7%'
+    slot: 19
+    display_name: '&f&l%playerlist_online_7%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_7%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_7%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_7%'
+  pl_07_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 19
+  pl_08:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_8%'
+    slot: 20
+    display_name: '&f&l%playerlist_online_8%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_8%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_8%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_8%'
+  pl_08_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 20
+  pl_09:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_9%'
+    slot: 21
+    display_name: '&f&l%playerlist_online_9%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_9%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_9%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_9%'
+  pl_09_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 21
+  pl_10:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_10%'
+    slot: 22
+    display_name: '&f&l%playerlist_online_10%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_10%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_10%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_10%'
+  pl_10_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 22
+  pl_11:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_11%'
+    slot: 23
+    display_name: '&f&l%playerlist_online_11%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_11%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_11%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_11%'
+  pl_11_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 23
+  pl_12:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_12%'
+    slot: 24
+    display_name: '&f&l%playerlist_online_12%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_12%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_12%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_12%'
+  pl_12_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 24
+  pl_13:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_13%'
+    slot: 25
+    display_name: '&f&l%playerlist_online_13%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_13%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_13%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_13%'
+  pl_13_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 25
+  pl_14:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_14%'
+    slot: 28
+    display_name: '&f&l%playerlist_online_14%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_14%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_14%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_14%'
+  pl_14_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 28
+  pl_15:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_15%'
+    slot: 29
+    display_name: '&f&l%playerlist_online_15%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_15%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_15%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_15%'
+  pl_15_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 29
+  pl_16:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_16%'
+    slot: 30
+    display_name: '&f&l%playerlist_online_16%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_16%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_16%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_16%'
+  pl_16_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 30
+  pl_17:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_17%'
+    slot: 31
+    display_name: '&f&l%playerlist_online_17%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_17%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_17%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_17%'
+  pl_17_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 31
+  pl_18:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_18%'
+    slot: 32
+    display_name: '&f&l%playerlist_online_18%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_18%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_18%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_18%'
+  pl_18_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 32
+  pl_19:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_19%'
+    slot: 33
+    display_name: '&f&l%playerlist_online_19%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_19%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_19%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_19%'
+  pl_19_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 33
+  pl_20:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_20%'
+    slot: 34
+    display_name: '&f&l%playerlist_online_20%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_20%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_20%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_20%'
+  pl_20_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 34
+  pl_21:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_21%'
+    slot: 37
+    display_name: '&f&l%playerlist_online_21%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_21%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_21%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_21%'
+  pl_21_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 37
+  pl_22:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_22%'
+    slot: 38
+    display_name: '&f&l%playerlist_online_22%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_22%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_22%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_22%'
+  pl_22_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 38
+  pl_23:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_23%'
+    slot: 39
+    display_name: '&f&l%playerlist_online_23%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_23%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_23%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_23%'
+  pl_23_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 39
+  pl_24:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_24%'
+    slot: 40
+    display_name: '&f&l%playerlist_online_24%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_24%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_24%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_24%'
+  pl_24_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 40
+  pl_25:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_25%'
+    slot: 41
+    display_name: '&f&l%playerlist_online_25%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_25%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_25%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_25%'
+  pl_25_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 41
+  pl_26:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_26%'
+    slot: 42
+    display_name: '&f&l%playerlist_online_26%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_26%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_26%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_26%'
+  pl_26_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 42
+  pl_27:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_27%'
+    slot: 43
+    display_name: '&f&l%playerlist_online_27%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_27%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_27%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_27%'
+  pl_27_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 43
+  pl_28:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_28%'
+    slot: 46
+    display_name: '&f&l%playerlist_online_28%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_28%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_28%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_28%'
+  pl_28_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 46
+  pl_29:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_29%'
+    slot: 47
+    display_name: '&f&l%playerlist_online_29%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_29%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_29%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_29%'
+  pl_29_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 47
+  pl_30:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_30%'
+    slot: 48
+    display_name: '&f&l%playerlist_online_30%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_30%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_30%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_30%'
+  pl_30_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 48
+  pl_31:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_31%'
+    slot: 50
+    display_name: '&f&l%playerlist_online_31%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_31%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_31%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_31%'
+  pl_31_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 50
+  pl_32:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_32%'
+    slot: 51
+    display_name: '&f&l%playerlist_online_32%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_32%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_32%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_32%'
+  pl_32_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 51
+  pl_33:
+    priority: 0
+    update: true
+    material: 'head-%playerlist_online_33%'
+    slot: 52
+    display_name: '&f&l%playerlist_online_33%'
+    lore:
+      - '&7Kliknij: wyślij &f/tpa'
+    view_requirement:
+      requirements:
+        not_offline:
+          type: "!string equals"
+          input: '%playerlist_online_33%'
+          output: 'Offline'
+    left_click_commands:
+      - '[player] tpa %playerlist_online_33%'
+    right_click_commands:
+      - '[player] tpa %playerlist_online_33%'
+  pl_33_empty:
+    priority: 1
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slot: 52
+  return_tp:
+    material: ARROW
+    slot: 49
+    display_name: '&7← Powrót'
+    lore:
+      - '&8Teleport'
+    left_click_commands:
+      - '[openguimenu] rpg_teleport'

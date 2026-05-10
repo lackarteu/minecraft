@@ -14,3 +14,5 @@ gui_menus:
     file: rpg_hub.yml
   rpg_teleport:
     file: rpg_teleport.yml
+  rpg_players:
+    file: rpg_players.yml
