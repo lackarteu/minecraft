@@ -98,6 +98,15 @@ public final class DungeonManager {
         Path template = resolveTemplate(def);
         Path target = Bukkit.getWorldContainer().toPath().resolve(worldName);
 
+        if (!java.nio.file.Files.isDirectory(template)) {
+            leader.sendMessage(ChatColor.RED + "Brak folderu mapy: " + template.toAbsolutePath());
+            return false;
+        }
+        if (!java.nio.file.Files.isRegularFile(template.resolve("level.dat"))) {
+            leader.sendMessage(ChatColor.RED + "Mapa nie jest pelna (brak level.dat). Wgraj swiat do: " + template.toAbsolutePath());
+            return false;
+        }
+
         try {
             if (java.nio.file.Files.exists(target)) {
                 WorldCopy.deleteDirectory(target);
@@ -109,7 +118,18 @@ public final class DungeonManager {
             return false;
         }
 
-        World world = Bukkit.createWorld(WorldCreator.name(worldName));
+        World world;
+        try {
+            world = Bukkit.createWorld(WorldCreator.name(worldName));
+        } catch (Throwable e) {
+            plugin.getLogger().log(Level.SEVERE, "createWorld: " + worldName, e);
+            leader.sendMessage(ChatColor.RED + "Serwer nie mogl zaladowac kopii swiata (zly format mapy?). Sprawdz logi.");
+            try {
+                WorldCopy.deleteDirectory(target);
+            } catch (IOException ignored) {
+            }
+            return false;
+        }
         if (world == null) {
             leader.sendMessage(ChatColor.RED + "Nie udalo sie zaladowac swiata instancji.");
             try {
@@ -126,7 +146,14 @@ public final class DungeonManager {
         for (Player p : party) {
             playerToInstance.put(p.getUniqueId(), iid);
         }
-        instance.begin();
+        try {
+            instance.begin();
+        } catch (Throwable e) {
+            plugin.getLogger().log(Level.SEVERE, "begin() instancji " + worldName, e);
+            leader.sendMessage(ChatColor.RED + "Blad startu lochu (teleport/spawn). Szczegoly w logach konsoli.");
+            destroyInstance(instance);
+            return false;
+        }
         party.forEach(p -> p.sendMessage(ChatColor.GREEN + "Instancja lochu " + ChatColor.WHITE + def.getId()
                 + ChatColor.GREEN + " — powodzenia!"));
         return true;

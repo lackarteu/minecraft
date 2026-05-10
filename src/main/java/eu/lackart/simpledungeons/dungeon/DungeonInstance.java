@@ -95,14 +95,21 @@ public final class DungeonInstance {
         for (var e : definition.getMobs().entrySet()) {
             var type = e.getKey();
             int n = e.getValue();
+            Class<? extends Entity> entClass = type.getEntityClass();
+            if (entClass == null || !LivingEntity.class.isAssignableFrom(entClass)) {
+                plugin.getLogger().warning("SimpleDungeons: pomijam typ moba (brak klasy): " + type);
+                continue;
+            }
             for (int i = 0; i < n; i++) {
                 Location loc = jitter(center, spread);
-                Entity ent = world.spawnEntity(loc, type, false);
-                if (ent instanceof LivingEntity living) {
+                try {
+                    LivingEntity living = world.spawn(loc, entClass.asSubclass(LivingEntity.class));
                     living.getPersistentDataContainer().set(keyInst, PersistentDataType.STRING, instanceId.toString());
                     living.getPersistentDataContainer().set(keyMob, PersistentDataType.BYTE, (byte) 1);
+                    total++;
+                } catch (Exception ex) {
+                    plugin.getLogger().log(Level.WARNING, "Spawn " + type + " @ " + loc, ex);
                 }
-                total++;
             }
         }
         return total;
