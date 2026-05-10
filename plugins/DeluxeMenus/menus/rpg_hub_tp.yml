@@ -1,0 +1,112 @@
+# Submenu teleportów — otwierane z głównego menu (slot 29).
+menu_title: '&b&l≋ Teleport ≋'
+open_command: []
+size: 54
+items:
+  filler:
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slots:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 12
+      - 13
+      - 14
+      - 16
+      - 18
+      - 19
+      - 20
+      - 22
+      - 24
+      - 26
+      - 27
+      - 28
+      - 29
+      - 30
+      - 31
+      - 32
+      - 33
+      - 34
+      - 35
+      - 36
+      - 37
+      - 38
+      - 39
+      - 40
+      - 41
+      - 42
+      - 43
+      - 44
+      - 46
+      - 47
+      - 48
+      - 49
+      - 50
+      - 51
+      - 52
+      - 53
+  tpa_hint:
+    material: ENDER_PEARL
+    slot: 11
+    display_name: '&b&lTP do gracza'
+    lore:
+      - '&7Użyj &f/tpa <nick>'
+    left_click_commands:
+      - '[message] &7Użyj: &f/tpa <nick>'
+  tpaccept_btn:
+    material: LIME_DYE
+    slot: 15
+    display_name: '&a&lAkceptuj TP'
+    lore:
+      - '&7/tpaccept'
+    left_click_commands:
+      - '[player] tpaccept'
+  tpdeny_btn:
+    material: RED_DYE
+    slot: 17
+    display_name: '&c&lOdrzuć TP'
+    lore:
+      - '&7/tpdeny'
+    left_click_commands:
+      - '[player] tpdeny'
+  sethome_btn:
+    material: RED_BED
+    slot: 21
+    display_name: '&e&lUstaw dom'
+    lore:
+      - '&7/sethome'
+    left_click_commands:
+      - '[player] sethome'
+  home_btn:
+    material: COMPASS
+    slot: 23
+    display_name: '&e&lIdź do domu'
+    lore:
+      - '&7/home'
+    left_click_commands:
+      - '[player] home'
+  back_btn:
+    material: SKELETON_SKULL
+    slot: 25
+    display_name: '&8&lPowrót po śmierci'
+    lore:
+      - '&7/back'
+    left_click_commands:
+      - '[player] back'
+  return_main:
+    material: ARROW
+    slot: 45
+    display_name: '&7← Powrót'
+    lore:
+      - '&8Menu główne'
+    left_click_commands:
+      - '[openguimenu] rpg_hub'

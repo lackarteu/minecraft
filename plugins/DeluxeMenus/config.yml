@@ -1,0 +1,11 @@
+# DeluxeMenus — repozytorium (VPS ma własny JAR). Po deploy: /dm reload
+# https://wiki.helpch.at/helpchat-plugins/deluxemenus/files
+
+debug: LOWEST
+check_updates: true
+
+gui_menus:
+  rpg_hub:
+    file: rpg_hub.yml
+  rpg_hub_tp:
+    file: rpg_hub_tp.yml

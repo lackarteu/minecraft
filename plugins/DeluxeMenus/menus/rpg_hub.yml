@@ -1,0 +1,112 @@
+# RPG — menu główne (/menu). Jeśli Skript nadal rejestruje /menu, wyłącz tamten trigger lub zmień open_command.
+menu_title: '&6&l≋ Menu Główne ≋'
+open_command: menu
+size: 54
+items:
+  filler:
+    material: BLACK_STAINED_GLASS_PANE
+    display_name: '&8 '
+    slots:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+      - 9
+      - 10
+      - 12
+      - 14
+      - 16
+      - 17
+      - 18
+      - 19
+      - 20
+      - 21
+      - 22
+      - 23
+      - 24
+      - 25
+      - 26
+      - 27
+      - 28
+      - 30
+      - 32
+      - 34
+      - 35
+      - 36
+      - 37
+      - 38
+      - 39
+      - 40
+      - 41
+      - 42
+      - 43
+      - 44
+      - 45
+      - 46
+      - 47
+      - 48
+      - 50
+      - 51
+      - 52
+      - 53
+  class_btn:
+    material: GOLDEN_SWORD
+    slot: 11
+    display_name: '&c⚔ Klasa'
+    lore:
+      - '&7Wybór / zmiana klasy'
+    left_click_commands:
+      - '[player] rpg_class'
+  stats_btn:
+    material: EMERALD
+    slot: 13
+    display_name: '&a✦ Statystyki'
+    lore:
+      - '&7AuraSkills — /skills'
+    left_click_commands:
+      - '[player] skills'
+  clan_btn:
+    material: GOLDEN_HELMET
+    slot: 15
+    display_name: '&6☠ Klan'
+    lore:
+      - '&7Lista klanów'
+    left_click_commands:
+      - '[player] clan list'
+  tp_btn:
+    material: ENDER_PEARL
+    slot: 29
+    display_name: '&b↪ Teleport'
+    lore:
+      - '&7Homes, TP, akceptacja'
+    left_click_commands:
+      - '[openguimenu] rpg_hub_tp'
+  players_btn:
+    material: BOOK
+    slot: 31
+    display_name: '&e✉ Gracze online'
+    lore:
+      - '&7Komenda /list'
+    left_click_commands:
+      - '[player] list'
+  dungeons_btn:
+    material: MAP
+    slot: 33
+    display_name: '&d⚑ Lochy'
+    lore:
+      - '&7DungeonsXL'
+    left_click_commands:
+      - '[player] dxl join'
+  close_btn:
+    material: COMPASS
+    slot: 49
+    display_name: '&7✖ Zamknij'
+    lore:
+      - '&8Zamknij menu'
+    left_click_commands:
+      - '[close]'
