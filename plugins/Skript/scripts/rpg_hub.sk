@@ -82,13 +82,15 @@ command /menu:
 #  GŁÓWNE MENU (54 sloty)
 # ═══════════════════════════════════════════════════════════════════════════
 
-function rpg_fill_black(inv: inventory):
-	loop integers from 0 to 53:
+function rpg_fill_black(inv: inventory, rows: number):
+	set {_last} to {_rows} * 9 - 1
+	loop integers from 0 to {_last}:
 		set slot loop-value of {_inv} to black stained glass pane named "§8 "
 
 function rpg_open_main(pl: player):
-	set {_inv} to chest inventory with 6 rows named "{@main_title}"
-	rpg_fill_black({_inv})
+	set {_t} to {@main_title}
+	set {_inv} to a new chest inventory named {_t} with 6 rows
+	rpg_fill_black({_inv}, 6)
 	set slot 11 of {_inv} to golden sword named "§c⚔ Klasa" with lore "§7Wybór / zmiana klasy"
 	set slot 13 of {_inv} to emerald named "§a✦ Statystyki" with lore "§7AuraSkills, klasa, klan, K/D"
 	set slot 15 of {_inv} to golden helmet named "§6☠ Klan" with lore "§7Twój klan RPG (Skript)"
@@ -103,8 +105,9 @@ function rpg_open_main(pl: player):
 # ═══════════════════════════════════════════════════════════════════════════
 
 function rpg_open_class(pl: player):
-	set {_inv} to chest inventory with 6 rows named "{@class_title}"
-	rpg_fill_black({_inv})
+	set {_t} to {@class_title}
+	set {_inv} to a new chest inventory named {_t} with 6 rows
+	rpg_fill_black({_inv}, 6)
 	set slot 10 of {_inv} to iron sword named "§c§lWojownik" with lore "§7Start: złoty miecz + żelazo", "§7Bonus: §f+50 health §7(AuraSkills)", "§8Pierwszy wybór = pakiet startowy"
 	set slot 13 of {_inv} to blaze rod named "§5§lMag" with lore "§7Start: laska + szata", "§7Bonus: §f+100 max_mana §7(cecha)", "§8Pierwszy wybór = pakiet startowy"
 	set slot 16 of {_inv} to bow named "§a§lŁucznik" with lore "§7Start: łuk + skóra", "§7Bonus: §f+10 speed §7(stat)", "§8Pierwszy wybór = pakiet startowy"
@@ -225,8 +228,9 @@ function rpg_try_set_class(pl: player, id: text):
 		set {class_cd::%uuid of {_pl}%} to now
 
 function rpg_open_class_confirm(pl: player):
-	set {_inv} to chest inventory with 3 rows named "{@confirm_title}"
-	rpg_fill_black({_inv})
+	set {_t} to {@confirm_title}
+	set {_inv} to a new chest inventory named {_t} with 3 rows
+	rpg_fill_black({_inv}, 3)
 	set slot 11 of {_inv} to red concrete named "§c§lAnuluj"
 	set slot 15 of {_inv} to lime concrete named "§a§lPotwierdzam zmianę" with lore "§7Wróć do menu klasy", "§7i wybierz nową profesję."
 	open {_inv} to {_pl}
@@ -236,8 +240,9 @@ function rpg_open_class_confirm(pl: player):
 # ═══════════════════════════════════════════════════════════════════════════
 
 function rpg_open_stats(pl: player):
-	set {_inv} to chest inventory with 6 rows named "{@stats_title}"
-	rpg_fill_black({_inv})
+	set {_t} to {@stats_title}
+	set {_inv} to a new chest inventory named {_t} with 6 rows
+	rpg_fill_black({_inv}, 6)
 	set {_d} to {rpg_dc::%uuid of {_pl}%}
 	{_d} is not set:
 		set {_d} to 0
@@ -269,8 +274,9 @@ function rpg_is_leader(pl: player) :: boolean:
 	return false
 
 function rpg_open_clan(pl: player):
-	set {_inv} to chest inventory with 6 rows named "{@clan_title}"
-	rpg_fill_black({_inv})
+	set {_t} to {@clan_title}
+	set {_inv} to a new chest inventory named {_t} with 6 rows
+	rpg_fill_black({_inv}, 6)
 	set {_c} to rpg_clan_of({_pl})
 	{_c} is "":
 		set slot 20 of {_inv} to emerald named "§a§lUtwórz klan" with lore "§7Użyj: §f/rpgklan utworz <nazwa>"
@@ -286,8 +292,9 @@ function rpg_open_clan(pl: player):
 	open {_inv} to {_pl}
 
 function rpg_open_clan_members(pl: player):
-	set {_inv} to chest inventory with 6 rows named "§6§l≋ Klan: członkowie ≋"
-	rpg_fill_black({_inv})
+	set {_t} to "§6§l≋ Klan: członkowie ≋"
+	set {_inv} to a new chest inventory named {_t} with 6 rows
+	rpg_fill_black({_inv}, 6)
 	set {_c} to rpg_clan_of({_pl})
 	set {_i} to 10
 	loop all players:
@@ -303,8 +310,9 @@ function rpg_open_clan_kick(pl: player):
 	rpg_is_leader({_pl}) is false:
 		send "{@p} &cTylko lider może wyrzucać." to {_pl}
 		stop
-	set {_inv} to chest inventory with 6 rows named "{@clan_kick_title}"
-	rpg_fill_black({_inv})
+	set {_t} to {@clan_kick_title}
+	set {_inv} to a new chest inventory named {_t} with 6 rows
+	rpg_fill_black({_inv}, 6)
 	set {_c} to rpg_clan_of({_pl})
 	set {_i} to 10
 	loop all players:
@@ -322,8 +330,9 @@ function rpg_open_clan_kick(pl: player):
 # ═══════════════════════════════════════════════════════════════════════════
 
 function rpg_open_tp(pl: player):
-	set {_inv} to chest inventory with 6 rows named "{@tp_title}"
-	rpg_fill_black({_inv})
+	set {_t} to {@tp_title}
+	set {_inv} to a new chest inventory named {_t} with 6 rows
+	rpg_fill_black({_inv}, 6)
 	set slot 11 of {_inv} to ender pearl named "§b§lTP do gracza" with lore "§7Lista online"
 	set slot 15 of {_inv} to lime dye named "§a§lAkceptuj TP" with lore "§7/tpaccept"
 	set slot 17 of {_inv} to red dye named "§c§lOdrzuć TP" with lore "§7/tpdeny"
@@ -334,8 +343,9 @@ function rpg_open_tp(pl: player):
 	open {_inv} to {_pl}
 
 function rpg_open_players(pl: player):
-	set {_inv} to chest inventory with 6 rows named "{@players_title}"
-	rpg_fill_black({_inv})
+	set {_t} to {@players_title}
+	set {_inv} to a new chest inventory named {_t} with 6 rows
+	rpg_fill_black({_inv}, 6)
 	set {_i} to 10
 	loop all players:
 		{_i} > 43:
@@ -353,8 +363,9 @@ function rpg_open_tp_pick(pl: player):
 # ═══════════════════════════════════════════════════════════════════════════
 
 function rpg_open_dungeons(pl: player):
-	set {_inv} to chest inventory with 6 rows named "{@dung_title}"
-	rpg_fill_black({_inv})
+	set {_t} to {@dung_title}
+	set {_inv} to a new chest inventory named {_t} with 6 rows
+	rpg_fill_black({_inv}, 6)
 	set slot 11 of {_inv} to map named "{@dungeon_1_name}" with lore "§7/dxl join {@dungeon_1_id}", "§8Min. graczy: 2"
 	set slot 13 of {_inv} to map named "{@dungeon_2_name}" with lore "§7/dxl join {@dungeon_2_id}", "§8Min. graczy: 2"
 	set slot 15 of {_inv} to map named "{@dungeon_3_name}" with lore "§7/dxl join {@dungeon_3_id}", "§8Min. graczy: 2"
