@@ -35,4 +35,7 @@ jobs:
             # Parties — drużyny z pluginu (Hangar). Skrypt /dr może współistnieć; rozważ wyłączenie jednego z systemów.
             [ -f plugins/Parties.jar ] || wget -O plugins/Parties.jar "https://hangarcdn.papermc.io/plugins/AlessioDP/Parties/versions/3.2.14/PAPER/Parties-3.2.14.jar"
 
+            # Dynmap — mapa WWW serwera (v3.7-beta-3)
+            [ -f plugins/Dynmap.jar ] || wget -O plugins/Dynmap.jar "https://github.com/webbukkit/dynmap/releases/download/v3.7-beta-3/Dynmap-3.7-beta-3-spigot.jar"
+
             systemctl restart minecraft
