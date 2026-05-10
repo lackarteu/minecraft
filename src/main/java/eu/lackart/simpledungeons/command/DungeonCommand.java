@@ -8,16 +8,20 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public final class DungeonCommand implements CommandExecutor, TabCompleter {
 
+    private final JavaPlugin plugin;
     private final DungeonManager manager;
     private final DungeonRegistry registry;
 
-    public DungeonCommand(DungeonManager manager, DungeonRegistry registry) {
+    public DungeonCommand(JavaPlugin plugin, DungeonManager manager, DungeonRegistry registry) {
+        this.plugin = plugin;
         this.manager = manager;
         this.registry = registry;
     }
@@ -32,22 +36,27 @@ public final class DungeonCommand implements CommandExecutor, TabCompleter {
             sendHelp(player);
             return true;
         }
-        switch (args[0].toLowerCase()) {
-            case "join" -> {
-                if (args.length < 2) {
-                    player.sendMessage(ChatColor.RED + "Uzycie: /dungeon join <nazwa>");
-                    return true;
+        try {
+            switch (args[0].toLowerCase()) {
+                case "join" -> {
+                    if (args.length < 2) {
+                        player.sendMessage(ChatColor.RED + "Uzycie: /dungeon join <nazwa>");
+                        return true;
+                    }
+                    manager.join(player, args[1]);
                 }
-                manager.join(player, args[1]);
+                case "leave" -> manager.leave(player);
+                case "list" -> {
+                    player.sendMessage(ChatColor.GOLD + "Dostepne lochy:");
+                    registry.getAll().forEach((id, def) -> player.sendMessage(ChatColor.GRAY + " - "
+                            + ChatColor.WHITE + id + ChatColor.GRAY + " ("
+                            + def.getMinPlayers() + "-" + def.getMaxPlayers() + " graczy)"));
+                }
+                default -> sendHelp(player);
             }
-            case "leave" -> manager.leave(player);
-            case "list" -> {
-                player.sendMessage(ChatColor.GOLD + "Dostepne lochy:");
-                registry.getAll().forEach((id, def) -> player.sendMessage(ChatColor.GRAY + " - "
-                        + ChatColor.WHITE + id + ChatColor.GRAY + " ("
-                        + def.getMinPlayers() + "-" + def.getMaxPlayers() + " graczy)"));
-            }
-            default -> sendHelp(player);
+        } catch (Throwable t) {
+            plugin.getLogger().log(Level.SEVERE, "Blad komendy /dungeon " + String.join(" ", args), t);
+            player.sendMessage(ChatColor.RED + "Wystapil blad serwera przy tej komendzie. Zglos adminowi (logi konsoli).");
         }
         return true;
     }

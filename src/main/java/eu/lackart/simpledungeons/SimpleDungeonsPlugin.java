@@ -22,7 +22,7 @@ public final class SimpleDungeonsPlugin extends JavaPlugin {
         this.dungeonRegistry = new DungeonRegistry(this);
         this.dungeonRegistry.load();
         this.dungeonManager = new DungeonManager(this, dungeonRegistry);
-        var cmd = new DungeonCommand(dungeonManager, dungeonRegistry);
+        var cmd = new DungeonCommand(this, dungeonManager, dungeonRegistry);
         var dungeonCmd = getCommand("dungeon");
         if (dungeonCmd != null) {
             dungeonCmd.setExecutor(cmd);

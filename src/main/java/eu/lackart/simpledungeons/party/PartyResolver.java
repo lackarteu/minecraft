@@ -97,8 +97,8 @@ public final class PartyResolver {
                 }
             }
             return online;
-        } catch (ReflectiveOperationException e) {
-            logger.log(Level.FINE, "SimpleClans API (refleksja) niedostepne — uzywam promienia.", e);
+        } catch (Exception e) {
+            logger.log(Level.WARNING, "SimpleClans (refleksja) — pomijam, uzywam promienia: " + e.getMessage(), e);
             return null;
         }
     }

@@ -19,6 +19,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -133,7 +134,9 @@ public final class DungeonManager {
 
     private Path resolveTemplate(DungeonDefinition def) {
         java.io.File serverRoot = plugin.getDataFolder().getParentFile().getParentFile();
-        return serverRoot.toPath().resolve(def.getTemplateBasePath()).resolve(def.getTemplateFolder());
+        String base = Objects.requireNonNullElse(def.getTemplateBasePath(), "plugins/DungeonsXL/maps");
+        String folder = Objects.requireNonNullElse(def.getTemplateFolder(), "sergis_dungeon");
+        return serverRoot.toPath().resolve(base).resolve(folder);
     }
 
     public boolean leave(Player player) {

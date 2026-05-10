@@ -97,7 +97,7 @@ public final class DungeonInstance {
             int n = e.getValue();
             for (int i = 0; i < n; i++) {
                 Location loc = jitter(center, spread);
-                Entity ent = world.spawnEntity(loc, type);
+                Entity ent = world.spawnEntity(loc, type, false);
                 if (ent instanceof LivingEntity living) {
                     living.getPersistentDataContainer().set(keyInst, PersistentDataType.STRING, instanceId.toString());
                     living.getPersistentDataContainer().set(keyMob, PersistentDataType.BYTE, (byte) 1);

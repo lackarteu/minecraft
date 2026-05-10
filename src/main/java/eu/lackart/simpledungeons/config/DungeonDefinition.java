@@ -62,7 +62,8 @@ public final class DungeonDefinition {
             }
         }
         ConfigurationSection boss = sec.getConfigurationSection("boss");
-        this.bossMythicId = boss != null ? boss.getString("mythic-id", "") : "";
+        String mid = boss != null ? boss.getString("mythic-id", "") : "";
+        this.bossMythicId = mid == null ? "" : mid;
         this.bossOffsetX = boss != null ? boss.getDouble("offset-x", 0) : 0;
         this.bossOffsetY = boss != null ? boss.getDouble("offset-y", 0) : 0;
         this.bossOffsetZ = boss != null ? boss.getDouble("offset-z", 8) : 8;
@@ -134,7 +135,7 @@ public final class DungeonDefinition {
     }
 
     public String getBossMythicId() {
-        return bossMythicId;
+        return bossMythicId == null ? "" : bossMythicId;
     }
 
     public double getBossOffsetX() {
